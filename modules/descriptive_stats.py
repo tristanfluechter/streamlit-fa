@@ -1,0 +1,277 @@
+"""
+This module uses a created Pandas Dataframe to conduct descriptive statistics.
+"""
+# Import relevant libraries
+from yahoo_fin import stock_info as si
+import pandas as pd
+from pandas.plotting import autocorrelation_plot
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import numpy as np
+import pandas_ta as ta
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import modules.data_importer as data_importer
+import streamlit as st
+
+def plot_stockdata(stockdata):
+    
+    # Create matplotlib plot object        
+    fig = go.Figure()
+    
+    # Plot closing prices
+    fig.add_trace(go.Scatter(x=stockdata.index, y=stockdata.Close, name = "Closing Price"))
+    
+    # Add title
+    fig.layout.update(showlegend = True, legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), 
+                      xaxis_rangeslider_visible = True, margin=go.layout.Margin(l=60, r=0, b=0, t=30),
+                      paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                      xaxis=dict(title="Date"),yaxis=dict(title="Closing Price in USD"))
+    
+    fig.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    fig.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    
+    #Show the graph
+    st.plotly_chart(fig, use_container_width = True)
+
+def show_stock_price(ticker, delta):
+    """
+    A program that returns the current stock price.
+    """
+    current_stock_price = float(si.get_live_price(ticker).round(2))
+    st.subheader(f"Current stock price of {ticker}: ")
+    st.metric("USD", current_stock_price, delta)
+    return current_stock_price
+
+
+def describe_stock_data(stockdata, ticker):
+    """
+    A program that describes the stock data, 
+    providing basic descriptive statistics.
+    """
+    # Save new dataframe for descriptive statistics
+    descriptive_df = stockdata.describe().Close
+    
+    # Get descriptive variables through indexing
+    stock_des_mean = descriptive_df['mean'].round(2)
+    stock_des_quart1 = descriptive_df['25%'].round(2)
+    stock_des_quart2 = descriptive_df['50%'].round(2)
+    stock_des_quart3 = descriptive_df['75%'].round(2)
+    stock_des_stddev = descriptive_df['std'].round(2)
+    stock_des_range = (stock_des_quart3 - stock_des_quart1).round(2)
+    stock_des_var_coefficient = ((stock_des_stddev / stock_des_mean) * 100).round(2)
+    
+    descriptive_data = {
+        "Mean closing price":stock_des_mean,
+        "First quartile of stock prices":stock_des_quart1,
+        "Second quartile of stock prices":stock_des_quart2,
+        "Third quartile of stock prices":stock_des_quart3,
+        "Quartile quartile of stock prices":stock_des_range,
+        "Standard deviation":stock_des_stddev,
+        "Variation coefficient":stock_des_var_coefficient   
+    }
+    
+    return descriptive_data
+
+def plot_trendline(stockdata):
+    """
+    A program that plots the ticker data over the given timeframe
+    and provides a linear trendline.
+    """
+    # Create matplotlib plot object        
+    fig = go.Figure()
+    
+    # Plot closing prices
+    fig.add_trace(go.Scatter(x=stockdata.index, y=stockdata.Close, name = "Closing Price"))
+    
+    # Convert Date Axis to numerical for trend line
+    numeric_dates = mdates.date2num(stockdata.index)
+    
+    # Fit data to create trend line
+    fitted_data = np.polyfit(numeric_dates, stockdata.Close, 1)
+    trend_curve = np.poly1d(fitted_data)
+    
+    # Plot trend line
+    fig.add_trace(go.Scatter(x=stockdata.index, y=trend_curve(numeric_dates), line=dict(dash = "dash"), name="Trend Line"))
+    
+    # Add title
+    fig.layout.update(showlegend = True, legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), 
+                      margin=go.layout.Margin(l=60, r=0, b=0, t=30),
+                      paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                      xaxis=dict(title="Date"),yaxis=dict(title="Closing Price in USD"))
+    
+    fig.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    fig.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+        
+    #Show the graph
+    st.plotly_chart(fig)
+
+
+def plot_simple_ma(stockdata):
+    """
+    A program that plots the ticker data over the given timeframe
+    and provides moving averages based on user input.
+    """
+    
+    # Define moving averages to plot
+
+    try:    
+        ma1_input = st.number_input("Please state a first moving average to plot (in days): ", min_value=1, value=10, step=1)
+        ma2_input = st.number_input("Please state a second moving average to plot (in days): ", min_value=1, value=20, step=1)
+            
+    except:
+        st.write("Invalid input. Please enter a positive integer.")
+    
+    # Get moving averages based on input
+    ma1 = stockdata.Close.rolling(ma1_input).mean()
+    ma2 = stockdata.Close.rolling(ma2_input).mean()
+    
+    fig = go.Figure()
+    
+    # Plot closing prices
+    fig.add_trace(go.Scatter(x=stockdata.index, y=stockdata.Close, name = "Closing Price"))
+    
+    # Plot trend line
+    fig.add_trace(go.Scatter(x=stockdata.index, y=ma1, name=f"Moving Average: {ma1_input} days."))
+    fig.add_trace(go.Scatter(x=stockdata.index, y=ma2, name=f"Moving Average: {ma2_input} days."))
+    
+    # Add title
+    fig.layout.update(showlegend = True, legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), 
+                      xaxis_rangeslider_visible = True, margin=go.layout.Margin(l=60, r=0, b=0, t=30),
+                      paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                      xaxis=dict(title="Date"),yaxis=dict(title="Closing Price in USD"))
+    
+    fig.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    fig.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    
+    # Show graph
+    st.plotly_chart(fig, use_container_width = True)
+
+def calculate_autocorrelation(stockdata):
+    """
+    This program calculates the amount of autocorrelation of a given stock
+    to give additional insights for short-term traders.
+    """
+    fig = plt.figure(figsize=(12,6))
+    ax = autocorrelation_plot(stockdata.Close)
+    plt.title("Autocorrelation Values for Time Series")
+    st.pyplot(fig)
+
+
+def plot_weighted_ma(stockdata, ticker, startdate, enddate):
+    """
+    A program that plots the ticker data over the given timeframe
+    and provides a 6-day weighted moving average based on user input.
+    """
+    # Get number of days for the custom weighted average.
+
+    wa_days = 6
+    
+    col1, col2, col3 = st.columns(3)
+    
+    weight1 = col1.number_input("Enter weight 1: ", min_value = 0.00, max_value = 1.00, value = 0.1)
+    weight2 = col2.number_input("Enter weight 2: ", min_value = 0.00, max_value = 1.00, value = 0.1)    
+    weight3 = col3.number_input("Enter weight 3: ", min_value = 0.00, max_value = 1.00, value = 0.1)
+    weight4 = col1.number_input("Enter weight 4: ", min_value = 0.00, max_value = 1.00, value = 0.2)
+    weight5 = col2.number_input("Enter weight 5: ", min_value = 0.00, max_value = 1.00, value = 0.2)            
+    weight6 = col3.number_input("Enter weight 6: ", min_value = 0.00, max_value = 1.00, value = 0.3)
+  
+    # Transform weights into numpy array
+    weights_for_ma = [weight1, weight2, weight3, weight4, weight5, weight6]
+    weights_for_ma = np.array(weights_for_ma)
+    
+    if sum(weights_for_ma) != 1.00:
+        st.write(f"Current sum of weights: {sum(weights_for_ma)} - Please enter weights to equal 1")
+    
+    else:
+        st.write("Weights have been set successfully!")
+    ma_weighted = stockdata.Close.rolling(wa_days).apply(lambda x: np.sum(weights_for_ma * x))
+    
+    fig = go.Figure()
+    
+    # Plot closing prices
+    fig.add_trace(go.Scatter(x=stockdata.index, y=stockdata.Close, name = "Closing Price"))
+    
+    # Plot trend line
+    fig.add_trace(go.Scatter(x=stockdata.index, y=ma_weighted, name=f"Custom Weighted Moving Average"))
+
+    # Add title
+    fig.layout.update(showlegend = True, legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), 
+                      xaxis_rangeslider_visible = True, margin=go.layout.Margin(l=60, r=0, b=0, t=30),
+                      paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                      xaxis=dict(title="Date"),yaxis=dict(title="Closing Price in USD"))
+    
+    fig.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    fig.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+ 
+    # Show graph
+    st.plotly_chart(fig, use_container_width = True)
+
+def plot_macd(stockdata, ticker, startdate, enddate):
+    """
+    Code credit: https://www.alpharithms.com/calculate-macd-python-272222/
+    This program plots the price chart combined with a moving average convergence / divergence.
+    """
+
+    try:
+        # Calculate MACD values and append them to stockdata dataframe
+        stockdata.ta.macd(close='Close', fast=12, slow=26, append=True)
+    except:
+        st.write("Entered timeframe is not long enough for MACD analysis.")
+    
+    # Generate plotly plot object
+    fig = make_subplots(rows=2, cols=1, subplot_titles=[f"Candlechart: Ticker {ticker} over time.", "MACD"],)
+    
+    # Append closing price line to first graph
+    fig.append_trace(go.Scatter(x=stockdata.index, y=stockdata['Open'],line=dict(color='black', width=1),
+        name='Open', legendgroup='1',), row=1, col=1)
+
+    # Append candlesticks for first graph
+    fig.append_trace(go.Candlestick(x=stockdata.index, open=stockdata['Open'], high=stockdata['High'], low=stockdata['Low'],
+        close=stockdata['Close'], increasing_line_color='green', decreasing_line_color='red', showlegend=False), 
+        row=1, col=1)
+    
+    # Append Fast Signal (%k) line to second graph
+    fig.append_trace(go.Scatter(
+        x=stockdata.index,
+        y=stockdata['MACD_12_26_9'],
+        line=dict(color='Blue', width=2),
+        name='MACD',
+        # showlegend=False,
+        legendgroup='2',), row=2, col=1)
+    
+    # Append Slow signal (%d) line to second graph
+    fig.append_trace(go.Scatter(
+        x=stockdata.index,
+        y=stockdata['MACDs_12_26_9'],
+        line=dict(color='Orange', width=2),
+        # showlegend=False,
+        legendgroup='2',
+        name='Signal'), row=2, col=1)
+    
+    # Colorize the data to emphasize difference between fast and slow signal
+    colors = np.where(stockdata['MACDh_12_26_9'] < 0, 'red', 'green')
+    
+    # Append colorized histogram to second graph indicating difference between fast and slow signal
+    fig.append_trace(go.Bar(x=stockdata.index, y=stockdata['MACDh_12_26_9'], name='Histogram', marker_color=colors), row=2, col=1)
+    
+    # Define layout for graphs: Font size and rangeslider.
+    layout = go.Layout(font_size=14, margin=go.layout.Margin(l=60, r=0, b=0, t=30), xaxis=dict(title="Date"),yaxis=dict(title="Closing Price in USD"), xaxis_rangeslider_visible = False)
+    
+    # Update options and show plot
+    fig.update_layout(layout)
+    # Show graph
+    st.plotly_chart(fig, use_container_width = True)
+    
+def main():
+    stock_data, stock_ticker, start_date, end_date = data_importer.get_yahoo_data()
+    show_stock_price(stock_ticker)
+    describe_stock_data(stock_data, stock_ticker)
+    plot_trendline(stock_data, stock_ticker, start_date, end_date)
+    calculate_autocorrelation(stock_data)
+    plot_simple_ma(stock_data, stock_ticker, start_date, end_date)
+    plot_weighted_ma(stock_data, stock_ticker, start_date, end_date)
+    plot_macd(stock_data, stock_ticker, start_date, end_date)
+
+if __name__ == '__main__':
+    main()
