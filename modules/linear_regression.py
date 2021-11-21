@@ -18,17 +18,25 @@ def linear_regression_dataprep(stockdata):
     This program performs a linear regression based on the obtained stock data,
     a user-specified timeframe and a desired prediction date.
     It outputs a graph that includes all stated information.
+    
+    Returns: lr_target_date, lr_X, lr_Y
     """
     
     # Get length of dataframe (ie number of days we can consider for linear regression)
     stockdata_days = len(stockdata)
     
-    # Define the last date !
-    # Ask user how many days before current date to use for linear regression
+
     col1, col2 = st.columns(2)
     
-    lr_target_date = col1.date_input("Please enter your target date you want to predict the price for: ", min_value = dt.date.today(), value = dt.date(2021,12,24))
-    lr_days = col2.number_input(f"How many past days do you want to consider for the linear regression? (max: {str(stockdata_days)}) ", min_value = 15, max_value=stockdata_days, value=60)
+    # Get user input for the prediction date
+    # Ensure that target date is in the future
+    lr_target_date = col1.date_input("Please enter your target date you want to predict the price for: ", 
+                                     min_value = dt.date.today(), value = dt.date(2021,12,24)) 
+    
+    # Ask user how many days before current date to use for linear regression
+    # Ensure that amount of days does not exceed dataframe length
+    lr_days = col2.number_input(f"How many past days do you want to consider for the linear regression? (max: {str(stockdata_days)}) ",
+                                min_value = 15, max_value=stockdata_days, value=60) # 
     
     # Create dataset with the last lr_days days
     lr_dataframe = stockdata.tail(lr_days)
@@ -47,6 +55,8 @@ def linear_regression(stockdata, ticker, targetdate, lr_X, lr_Y):
     """
     This program creates a linear regression with the preprocessed data
     to make a prediction based on a user-input target date.
+    
+    Returns: lr_line, lr_squared
     """
         
     # Create statsmodels LR object and add lr_X
@@ -87,26 +97,30 @@ def linear_regression(stockdata, ticker, targetdate, lr_X, lr_Y):
         created_date = dt.date.fromordinal(number)
         dates.append(created_date)
     
+    # Create plotly object
     fig = go.Figure()
     
     # Plot closing prices
     fig.add_trace(go.Scatter(x=dates, y=lr_Y, mode = "markers", name = "Closing Price"))
-    
     
     # Plot Regression Line for existing values
     fig.add_trace(go.Scatter(x=dates[:-1], y=lr_line[:-1], name="Regression Line",line=dict(color="red"), mode = "lines"))
     # Plot Regression Line prediction
     fig.add_trace(go.Scatter(x=dates[-2:], y=lr_line[-2:], name=f"Regression Line Prediction", line=dict(color="red", dash="dash")))
     
-    # Add title
+    # Format layout (Show legend in top left corner,
+    # remove title margins, remove backgroud colour,
+    # label the axes
     fig.layout.update(showlegend = True, legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), 
                       margin=go.layout.Margin(l=60, r=0, b=0, t=30),
                       paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                       xaxis=dict(title="Date"),yaxis=dict(title="Closing Price in USD"))
     
+    # Format axes
     fig.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     fig.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     
+    # Add annotation to prediction date
     fig.add_annotation(x=dates[-1], y=(lr_line[-1]+1),
             text="Predicted Date")
     
@@ -124,9 +138,11 @@ def linear_regression_evaluation(lr_Y, lr_line, lr_rsquared):
     root_mean_square_error = np.sqrt(((lr_line - lr_Y) ** 2).mean()).round(2)
     # RSquared was returned in the Statsmodels OLS Regression summary
     r_squared = float(lr_rsquared)
+    
     # Print out results
     st.write(f"Linear Regression RMSE: {root_mean_square_error}")
     st.write(f"Linear Regression R-Squared: {r_squared}")
+    
     # Evaluate r-squared metric - how much of the movements does the regression explain?
     if r_squared <= 0.4:
         st.write(f"With an r-squared value of {r_squared}, it is __not sufficient__ to rely on a simple regression to predict stock values.")

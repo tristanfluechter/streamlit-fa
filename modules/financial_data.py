@@ -6,12 +6,9 @@ presented values easily available.
 """
 
 # Import relevant libraries
-# html parser
-from bs4 import BeautifulSoup
-# web scraper
-import requests
-# regex to search for strings on sites
-import re
+from bs4 import BeautifulSoup # html parser
+import requests # web scraper
+import re # regex to search for strings on sites
 import streamlit as st
 
 def scrape_analyst_predictions(ticker):

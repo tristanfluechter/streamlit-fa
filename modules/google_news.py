@@ -34,6 +34,7 @@ def print_headlines(stock_news, stock_ticker):
     headline4 = stock_news_headlines[3]
     headline5 = stock_news_headlines[4]
     
+    # Write headlines
     st.subheader(f"These are the top 5 Google News headlines for {stock_ticker}:")
     st.write(headline1)
     st.write(headline2)

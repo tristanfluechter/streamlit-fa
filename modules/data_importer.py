@@ -1,6 +1,8 @@
 """
 Python Assignment: stock_data_importer.py
 This program imports stock data based on user input and saves it as a Pandas Dataframe.
+Currently, it is not used in the streamlit module.
+It is used in the command line interface of this app.
 """
 
 # Import relevant libraries

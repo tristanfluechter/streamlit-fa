@@ -25,6 +25,8 @@ def lstm_prepare_data(stockdata, stockticker):
     This program prepares the data for a LSTM-model by getting a user input on the train-test-split.
     To avoid overfitting, data should always be split into training and testing data. After training a model with one LSTM layer,
     the program visualizes the given predictions. Those predictions are then used to give an estimate of where the stock could be in the next n days.
+    
+    Returns: look_back, date_train, date_test, close_train, close_test, train_generator, test_generator, close_data_noarray, close_data
     """
     # To get a sensible train test split, we restrict the amount of freedom our user gets.
     split_percent = st.number_input("Please enter your desired train-test-split as a positive float between 0.6 and 0.8: ", min_value=0.6, max_value=0.8)
@@ -57,18 +59,30 @@ def lstm_prepare_data(stockdata, stockticker):
     
     
 def lstm_train(look_back, train_generator, test_generator, close_test, close_train):
+    """
+    This model trains an LSMT model based on the data provided by
+    lstm_prepare_data().
+
+    Returns: model, prediction, close_train, close_test
+    """
     # Create the LSTM model
     model = Sequential()
+    
     # Add first (and only) layer to the model. 15 nodes, ReLu activation function 
     model.add(LSTM(units = 15, activation='relu', input_shape=(look_back,1)))
+    
     # Create densely connected NN layer
     model.add(Dense(1))
+    
     # Compile model
     model.compile(optimizer='adam', loss='mse')
+    
     # How many epochs do we train the model?
     num_epochs = 50
+    
     # Fit model with data, don't allow status updates
     model.fit(train_generator, epochs=num_epochs, verbose=1)
+    
     # Create prediction values
     prediction = model.predict(test_generator)
 
@@ -105,23 +119,31 @@ def lstm_visualize(date_test, date_train, close_test, close_train, prediction, s
     # Show Figure
     fig = go.Figure(data=[trace1, trace2, trace3])
     
-    # Add title
+    # Format layout (Show legend in top left corner,
+    # remove title margins, remove backgroud colour,
+    # label the axes
     fig.layout.update(showlegend = True, legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), 
                       margin=go.layout.Margin(l=60, r=0, b=0, t=30),
                       paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
                       xaxis=dict(title="Date"),yaxis=dict(title="Closing Price in USD"))
     
+    # Format axes: Border
     fig.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     fig.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     
+    # Plot train / test performance and use full column width
     st.plotly_chart(fig, use_container_width = True)
 
 def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noarray, stockticker):
+    """
+    Makes a prediction for the next 30 days by appending forecast data to prediction
+    dataframe using the LSTM model.
+    """
     
     # For how many days do we predict?
     # Set to 15 because the LSTM predictions autocorrelate with previous predictions.
     # This way, we avoid overly dramatic movements in either direction.
-    num_prediction = 15
+    num_prediction = 30
     
     prediction_list = close_data[-look_back:] # input scaled data
     

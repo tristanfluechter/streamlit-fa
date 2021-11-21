@@ -7,28 +7,33 @@ to derive a decision on whether or not to buy the stock.
 
 The app uses Streamlit to create a web-based GUI to enable easy hosting if desired.
 
+The hosted app can be found at https://share.streamlit.io/tristanfluechter/streamlit-fa/main/stock_evaluator.py
+
 Copyright: Tristan Fluechter, Odhrán MacDonnel, Anirudh Bhatia, Kunal Gupta
 """
 
 # Import necessary external libraries
-import streamlit as st
-import datetime
-import pandas_datareader as data
-import pickle
+import streamlit as st # to host the app
+import datetime # to get correct date inputs
+import pandas_datareader as data # to read stock data
+import pickle # to import pre-trained ML countvector and randomforest
 
 # Import necessary modules
-import modules.data_importer as data_importer
-import modules.descriptive_stats as ds
-import modules.financial_data as fd
-import modules.google_news as gn
-import modules.linear_regression as lr
-import modules.LSTM_prediction as lstm
-import modules.sentiment_analysis as sa
+import modules.descriptive_stats as ds # for descriptive statistics
+import modules.financial_data as fd # for financial data
+import modules.google_news as gn # to scrape google news
+import modules.linear_regression as lr # to perform and evaluate linear regression
+import modules.LSTM_prediction as lstm # to perform and evaluate LSTM
+import modules.sentiment_analysis as sa # to perform and evaluate sentiment analysis
 
 def homepage(stock_ticker, start_date, end_date):
+    """
+    This is the starting point of our module - the homepage.
+    It performs no calculations.
+    """
+    
     # Welcome page for the user
     # Display header image
-    
     st.image('images/Welcome_Page.jpg')
 
     # Display greeting message
@@ -53,8 +58,16 @@ def homepage(stock_ticker, start_date, end_date):
 
     
 class StockPrediction:
+    """
+    The created class is the foundation of all further analysis. A StockPrediction
+    instance incorporates closing price data, ticker, start & end date of analysis and
+    stock news.
+    
+    The class methods will be used in the different tabs of the stock evaluator.
+    """
     
     def __init__(self, stock_data, stock_ticker, start_date, end_date, stock_news):
+        # Initialze the StockPrediction instance
         self.stock_data = stock_data
         self.stock_ticker = stock_ticker
         self.start_date = start_date
@@ -62,6 +75,12 @@ class StockPrediction:
         self.stock_news = stock_news
     
     def stock_information(self):
+        """
+        Gets stock data based on ticker input in sidebar.
+        Scrapes websites for Stock Information, Google News and Analyst Predictions.
+        """
+        
+        # Header
         st.write("""
                  # Stock News & Analyst Predictions
                  
@@ -69,26 +88,42 @@ class StockPrediction:
                  
                  """)
         
+        # Get trading volume information
         abs_change, percent_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
-        
+        # Get Google News Headlines
         gn.print_headlines(self.stock_news, self.stock_ticker)
+        # Spacer
         st.write("***")
         
+        # Create two columns
         col1, col2 = st.columns([1,2])
         
+        # Display column 1
         with col1:
+            # Get current stock price
             current_stock_price = ds.show_stock_price(self.stock_ticker, abs_change)
+            # Get analyst predictions and assign median_price
             median_price = fd.scrape_analyst_predictions(self.stock_ticker)
+            
+            # Logic check: Will stock price increase / decrease according to analysts?
             if current_stock_price < median_price:
                 st.write("Analysts predict stock value will __increase__!")
             else:
                 st.write("Analysts predict stock value will __decrease__!")
-            
+        
+        # Display column 2    
         with col2:
+            # Display historic closing price of stock over defined time period.
             st.subheader(f"Closing price of {self.stock_ticker} in USD over time:")
             ds.plot_stockdata(self.stock_data)
         
-    def descriptive_stats_1(self):
+    def descriptive_stats(self):
+        """
+        Displays descriptive measures, trendline and simple moving average based on
+        user input.
+        """
+        
+        # Header
         st.write("""
                  # Descriptive Statistics
                  
@@ -96,25 +131,40 @@ class StockPrediction:
                  
                  """)
         
+        # Create columns with relative sizes
         col1, col2, col3 = st.columns([2,1,4])
         
+        # Column subheaders
         col1.subheader(f"Descriptive Measures for {self.stock_ticker}")
         col2.subheader(" Value")
         col3.subheader("Trendline based on Specified Timeframe")
-    
+
+        # Get descriptive measures
         descriptive_dict = ds.describe_stock_data(self.stock_data, self.stock_ticker)
         
+        # Create descriptive measures table
         for key, value in descriptive_dict.items():
             col1.write(key)
             col2.write(value)
-            
+        
+        # Plot trendline    
         with col3:
             ds.plot_trendline(self.stock_data)
+        
+        # Spacer
         st.write("***")
+        
+        # Display unweighted custom moving average based on user input
         st.subheader("Unweighted moving average - crossovers of MA lines indicate increase / decrease of stock value!")   
         ds.plot_simple_ma(self.stock_data)
     
-    def descriptive_stats_2(self):
+    def advanced_descriptive_stats(self):
+        """
+        Displays custom-weighted 6-day moving average as well as MACD plot and
+        autocorrelation plot.
+        """
+        
+        # Header
         st.write("""
             # Advanced Analytical Charts: Custom Moving Average and MACD
             To dive further into the stock analysis, this module provides you the option to examine
@@ -122,15 +172,26 @@ class StockPrediction:
             ***
                  
             """)
+        
+        # Get user input for weights
         st.subheader("Enter weights to get custom 6-day weighted moving average!")
+        # Plot weighted MA
         ds.plot_weighted_ma(self.stock_data, self.stock_ticker, self.start_date, self.end_date)
+        # Plot MACD
         st.subheader("Candlechart Graph and Moving Average Convergence / Divergence")
         st.write("Crossing lines indicate stock downtrend / uptrend")
         ds.plot_macd(self.stock_data, self.stock_ticker, self.start_date, self.end_date)
+        # Plot autocorrelation plot
         st.subheader("Autocorrelation Plot: How is the time series correlated with itself?")
         ds.calculate_autocorrelation(self.stock_data)
     
     def prediction(self, stock_news):
+        """
+        Extensive module that uses regression, LSTM and Random Forest Decision Trees
+        to predict stock value beahviour in the future.
+        """
+        
+        # Header
         st.write("""
             # Stock Prediction: Linear Regression
             Statsmodels linear regression based on the obtained stock data,
@@ -139,11 +200,16 @@ class StockPrediction:
             ***
                  
             """)
-        lr_target_date, lr_X, lr_Y = lr.linear_regression_dataprep(self.stock_data)
-        lr_line, lr_squared = lr.linear_regression(self.stock_data, self.stock_ticker, lr_target_date, lr_X, lr_Y)
-        st.subheader("Evaluation of the Linear Regression Model for Predictive Use:")
-        lr.linear_regression_evaluation(lr_Y, lr_line, lr_squared)
         
+        # Get user input for target date and return prepared data for linear regression
+        lr_target_date, lr_X, lr_Y = lr.linear_regression_dataprep(self.stock_data)
+        # Create regression and return linear regression line and r_squared error
+        lr_line, lr_rsquared = lr.linear_regression(self.stock_data, self.stock_ticker, lr_target_date, lr_X, lr_Y)
+        # Evaluate predictive value of regression curve
+        st.subheader("Evaluation of the Linear Regression Model for Predictive Use:")
+        lr.linear_regression_evaluation(lr_Y, lr_line, lr_rsquared)
+        
+        # Header
         st.write("""
             # Stock Prediction: Long Short Term Memory
             LSTM is a form of time series prediction. The model is first trained based on a user-defined
@@ -154,17 +220,22 @@ class StockPrediction:
                  
             """)
         
+        # Prepare data for LSTM model: define how many days to consider, and create arrays with numerical value dates
         look_back, date_train, date_test, close_train, close_test, train_generator, test_generator, close_data_noarray, close_data = lstm.lstm_prepare_data(self.stock_data, self.stock_ticker)
+        # Train LSTM model
         model, prediction, close_train, close_test = lstm.lstm_train(look_back, train_generator, test_generator, close_test, close_train)
         
+        # Visualize model 
         st.subheader("Model Training: Does it fit the test data?")
         lstm.lstm_visualize(date_test, date_train, close_test, close_train, prediction, self.stock_ticker)
+        # Visualize prediction
         st.subheader("Model Prediction for next 15 days")
         lstm.lstm_make_prediction(model, look_back, self.stock_data, close_data, close_data_noarray, self.stock_ticker)
-        
+        # Show evaluation of LSTM model
         st.subheader("Evaluation of the LSTM model for Predictive Use: ")
         lstm.lstm_evaluation(prediction, close_train)
-
+        
+        # Header
         st.write("""
             # Stock Prediction: Sentiment Analysis
             This module provides a sentiment analysis for a given stock ticker
@@ -174,35 +245,53 @@ class StockPrediction:
             ***
                  
             """)
+        
+        # Get countvector and randomclassifier from folder (pre-trained model!)
         countvector = pickle.load(open("data/vector.pickel", "rb"))
         randomclassifier = pickle.load(open("data/randomforest_sentiment_classifier.sav", "rb"))
+        # Create prediction (0 or 1) for news headlines
         sa.rf_predict(stock_news, countvector, randomclassifier)
 
 
 def get_stock_inputs():
+    """
+    Sidebar inputs for stock ticker and timeframe.
+    Returns: stock_ticker, start_date, end_date
+    """
     
     # Get ticker
     stock_ticker = st.sidebar.text_input("Please enter stock ticker:", value="MSFT")
     # Get start date (default date: Jan 1, 2021)
-    start_date = st.sidebar.date_input("Please select a start date for stock analysis: ", value = datetime.date(2021,1,1))
+    start_date = st.sidebar.date_input("Please select a start date for stock analysis: ", max_value= datetime.date(2021,31,3), value = datetime.date(2021,1,1))
     # Get end date (default date: Today)
     end_date = st.sidebar.date_input("Please select an end date for stock analysis: ")
 
     return stock_ticker, start_date, end_date
 
+# Cache function to save stock_data if nothing else has changed
 @st.cache(allow_output_mutation=True)
 def get_stock_data(stock_ticker, start_date, end_date):
+    """
+    Gets stock data from Yahoo based on sidebar inputs.
+    Returns pd.DataFrame with all stock info.
+    """
     
     stock_data = data.DataReader(stock_ticker, "yahoo", start_date, end_date)
     return stock_data
 
 def app():
+    """
+    Main streamlit app to deploy.
+    """
     
+    # Set configuration to be widescreen
     st.set_page_config(layout="wide")
     
+    # Get user input (needed for all functions!)
     stock_ticker, start_date, end_date = get_stock_inputs()
     
-    
+    # Get stock data if user input has been correct.
+    # Error handling
     try: 
         stock_data = get_stock_data(stock_ticker, start_date, end_date)
         stock_news = gn.get_headlines(stock_ticker)
@@ -211,8 +300,10 @@ def app():
     except:
         st.sidebar.write(f"Invalid ticker or date input. Please re-enter parameters.")
     
+    # Create StockPrediction object
     stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
     
+    # Create navigation
     navigation = st.sidebar.selectbox(
         "Navigation",
         [
@@ -224,18 +315,18 @@ def app():
         ],
     )
 
+    # Navigate pages according to user input
     if navigation == "Homepage":
-        homepage(stock_ticker, start_date, end_date)
-        
+        homepage(stock_ticker, start_date, end_date)   
     elif navigation == "Basic Information":
         stock.stock_information()
     elif navigation == "Descriptive Statistics":
-        stock.descriptive_stats_1()
+        stock.descriptive_stats()
     elif navigation == "Advanced Analytical Charts":
-        stock.descriptive_stats_2()
+        stock.advanced_descriptive_stats()
     elif navigation == "Price Prediction":
         stock.prediction(stock_news)
 
-  
+# Run streamlit app
 app()  
  
