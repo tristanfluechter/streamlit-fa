@@ -13,3 +13,5 @@ scikit_learn==1.0.1
 statsmodels==0.12.2
 streamlit==0.88.0
 yahoo_fin==0.8.9.1
+tensorflow
+
