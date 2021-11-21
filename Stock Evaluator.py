@@ -157,11 +157,10 @@ class StockPrediction:
         look_back, date_train, date_test, close_train, close_test, train_generator, test_generator, close_data_noarray, close_data = lstm.lstm_prepare_data(self.stock_data, self.stock_ticker)
         model, prediction, close_train, close_test = lstm.lstm_train(look_back, train_generator, test_generator, close_test, close_train)
         
-        col1, col2 = st.columns(2)
-        with col1:
-            lstm.lstm_visualize(date_test, date_train, close_test, close_train, prediction, self.stock_ticker)
-        with col2:
-            lstm.lstm_make_prediction(model, look_back, self.stock_data, close_data, close_data_noarray, self.stock_ticker)
+        st.subheader("Model Training: Does it fit the test data?")
+        lstm.lstm_visualize(date_test, date_train, close_test, close_train, prediction, self.stock_ticker)
+        st.subheader("Model Prediction for next 15 days")
+        lstm.lstm_make_prediction(model, look_back, self.stock_data, close_data, close_data_noarray, self.stock_ticker)
         
         st.subheader("Evaluation of the LSTM model for Predictive Use: ")
         lstm.lstm_evaluation(prediction, close_train)

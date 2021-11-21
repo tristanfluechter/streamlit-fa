@@ -102,7 +102,6 @@ def lstm_visualize(date_test, date_train, close_test, close_train, prediction, s
         name = 'Ground Truth'
     )
     layout = go.Layout(
-        title = f"{stockticker} Stock",
         xaxis = {'title' : "Date"},
         yaxis = {'title' : "Close"}
     )
@@ -148,7 +147,6 @@ def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noa
         name = 'Prediction'
     )
     layout2 = go.Layout(
-        title = f"{stockticker} Stock Prediction",
         xaxis = {'title' : "Date"},
         yaxis = {'title' : "Close"}
     )
