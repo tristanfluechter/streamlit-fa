@@ -143,7 +143,7 @@ def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noa
     # For how many days do we predict?
     # Set to 15 because the LSTM predictions autocorrelate with previous predictions.
     # This way, we avoid overly dramatic movements in either direction.
-    num_prediction = 30
+    num_prediction = 15
     
     prediction_list = close_data[-look_back:] # input scaled data
     
