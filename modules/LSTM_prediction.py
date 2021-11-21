@@ -114,7 +114,7 @@ def lstm_visualize(date_test, date_train, close_test, close_train, prediction, s
     fig.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     fig.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, use_container_width = True)
 
 def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noarray, stockticker):
     
@@ -165,7 +165,7 @@ def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noa
     fig2.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     fig2.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     
-    st.plotly_chart(fig2)
+    st.plotly_chart(fig2, use_container_width=True)
 
 def lstm_evaluation(prediction, close_train):
     root_mean_square_error = np.sqrt(((prediction[0] - close_train[0]) ** 2).mean()).round(2)
