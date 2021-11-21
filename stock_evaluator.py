@@ -262,7 +262,7 @@ def get_stock_inputs():
     # Get ticker
     stock_ticker = st.sidebar.text_input("Please enter stock ticker:", value="MSFT")
     # Get start date (default date: Jan 1, 2021)
-    start_date = st.sidebar.date_input("Please select a start date for stock analysis: ", max_value= datetime.date(2021,31,3), value = datetime.date(2021,1,1))
+    start_date = st.sidebar.date_input("Please select a start date for stock analysis: ", max_value= datetime.date(2021,3,31), value = datetime.date(2021,1,1))
     # Get end date (default date: Today)
     end_date = st.sidebar.date_input("Please select an end date for stock analysis: ")
 
