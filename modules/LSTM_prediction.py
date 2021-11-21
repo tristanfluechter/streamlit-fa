@@ -101,13 +101,19 @@ def lstm_visualize(date_test, date_train, close_test, close_train, prediction, s
         mode='lines',
         name = 'Ground Truth'
     )
-    layout = go.Layout(
-        xaxis = {'title' : "Date"},
-        yaxis = {'title' : "Close"}
-    )
     
     # Show Figure
-    fig = go.Figure(data=[trace1, trace2, trace3], layout=layout)
+    fig = go.Figure(data=[trace1, trace2, trace3])
+    
+    # Add title
+    fig.layout.update(showlegend = True, legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), 
+                      margin=go.layout.Margin(l=60, r=0, b=0, t=30),
+                      paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                      xaxis=dict(title="Date"),yaxis=dict(title="Closing Price in USD"))
+    
+    fig.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    fig.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    
     st.plotly_chart(fig)
 
 def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noarray, stockticker):
@@ -146,12 +152,19 @@ def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noa
         mode = 'lines',
         name = 'Prediction'
     )
-    layout2 = go.Layout(
-        xaxis = {'title' : "Date"},
-        yaxis = {'title' : "Close"}
-    )
+
     # Show Figure
-    fig2 = go.Figure(data=[trace_original, trace_pred], layout=layout2)
+    fig2 = go.Figure(data=[trace_original, trace_pred])
+    
+    # Add title
+    fig2.layout.update(showlegend = True, legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), 
+                      margin=go.layout.Margin(l=60, r=0, b=0, t=30),
+                      paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+                      xaxis=dict(title="Date"),yaxis=dict(title="Closing Price in USD"))
+    
+    fig2.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    fig2.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    
     st.plotly_chart(fig2)
 
 def lstm_evaluation(prediction, close_train):
