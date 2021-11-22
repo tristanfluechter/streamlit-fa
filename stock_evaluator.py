@@ -270,7 +270,7 @@ def get_stock_inputs():
     date_difference = (end_date - start_date).days
     
     if date_difference <= 100 and date_difference >= 0:
-        st.sidebar.error(f"Selected timeframe is {date_difference} days (should be > 100 for full functionality).")
+        st.sidebar.error(f"Warning: Selected timeframe is {date_difference} days (should be > 100 for full functionality).")
     elif date_difference <= 0:
         st.sidebar.error("Selected timeframe is negative. Please enter in correct format.")
 
@@ -357,7 +357,7 @@ def app():
             stock.advanced_descriptive_stats()
         except KeyError:
             st.write("Entered timeframe too short for MACD analysis.")
-        except:
+        finally:
             error_message()
     elif navigation == "Predictive Models":
         try:
