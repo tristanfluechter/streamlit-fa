@@ -341,18 +341,27 @@ def app():
         try:
             homepage(stock_ticker, start_date, end_date)  
         except:
-            st.write("Doesn't work lol") 
+            error_message()
     elif navigation == "Basic Information":
         try:
             stock.stock_information()
         except:
-            st.write("Doesnt work lol")
+            error_message()
     elif navigation == "Descriptive Statistics":
-        stock.descriptive_stats()
+        try:
+            stock.descriptive_stats()
+        except:
+            error_message()
     elif navigation == "Advanced Analytical Charts":
-        stock.advanced_descriptive_stats()
+        try:
+            stock.advanced_descriptive_stats()
+        except:
+            error_message()
     elif navigation == "Predictive Models":
-        stock.prediction(stock_news)
+        try:
+            stock.prediction(stock_news)
+        except:
+            error_message()
 
 # Run streamlit app
 app()
