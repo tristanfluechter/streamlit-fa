@@ -135,8 +135,8 @@ class StockPrediction:
         col1, col2, col3 = st.columns([2,1,4])
         
         # Column subheaders
-        col1.subheader(f"Descriptive Measures for {self.stock_ticker}")
-        col2.subheader(" Value")
+        col1.subheader(f"Descriptive Measures")
+        col2.subheader("Value")
         col3.subheader("Trendline based on Specified Timeframe")
 
         # Get descriptive measures
