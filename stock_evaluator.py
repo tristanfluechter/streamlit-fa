@@ -256,7 +256,6 @@ def get_stock_inputs():
     """
     # TODO Error handling
     # TODO IF TICKER THEN NAVIGATION
-    # TODO DATES
     
     # Get ticker
     stock_ticker = st.sidebar.text_input("Please enter stock ticker:", value="MSFT")
@@ -265,12 +264,14 @@ def get_stock_inputs():
     # Get end date (default date: Today)
     end_date = st.sidebar.date_input("Please select an end date for stock analysis: ", max_value= datetime.date.today())
     
-    if (end_date - start_date).days <= 60:
-        st.sidebar.write("Selected timeframe is less than 60 days. For optimal results, we recommend a timeframe > 60 days.")
-    elif (end_date - start_date).days <= 0:
+    date_difference = (end_date - start_date).days
+    
+    if date_difference <= 60:
+        st.sidebar.write(f"Selected timeframe is {date_difference}} days. For optimal results, we recommend a timeframe > 60 days.")
+    elif date_difference <= 0:
         st.sidebar.write("Selected timeframe is negative. Please enter in correct format.")
     else:
-        st.sidebar.write(f"Successfully selected {(end_date - start_date).days} days timeframe.")
+        st.sidebar.write(f"Selected {date_difference} days timeframe.")
 
     return stock_ticker, start_date, end_date
 
@@ -294,7 +295,11 @@ def app():
     st.set_page_config(layout="wide")
     
     # Get user input (needed for all functions!)
-    stock_ticker, start_date, end_date = get_stock_inputs()
+    try:
+        stock_ticker, start_date, end_date = get_stock_inputs()
+        
+    except: 
+        st.sidebar.write("Invalid stock ticker input. Please re-enter correct ticker.")
     
     # Get stock data if user input has been correct.
     # Error handling
@@ -307,7 +312,10 @@ def app():
         st.sidebar.write(f"Invalid ticker or date input. Please re-enter parameters.")
     
     # Create StockPrediction object
-    stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
+    try:
+        stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
+    except:
+        st.write("Could not create stock object. Please check if date and ticker has been entered correctly.")
     
     # Create navigation
     
