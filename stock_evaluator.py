@@ -258,7 +258,7 @@ def get_stock_inputs():
     # TODO IF TICKER THEN NAVIGATION
     
     # Get ticker
-    stock_ticker = st.sidebar.text_input("## Please enter stock ticker:", value="MSFT")
+    stock_ticker = st.sidebar.text_input("Please enter stock ticker:", value="MSFT")
     # Get start date (default date: Jan 1, 2021)
     start_date = st.sidebar.date_input("Please select a start date for stock analysis: ", value = datetime.date(2021,1,1))
     # Get end date (default date: Today)
