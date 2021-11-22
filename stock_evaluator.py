@@ -91,7 +91,7 @@ class StockPrediction:
         # Get trading volume information
         abs_change, percent_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
         # Get Google News Headlines
-        gn.print_headlines(self.stock_news, self.stock_ticker, trading_volume)
+        gn.print_headlines(self.stock_news, self.stock_ticker)
         # Spacer
         st.write("***")
         
@@ -101,7 +101,7 @@ class StockPrediction:
         # Display column 1
         with col1:
             # Get current stock price
-            current_stock_price = ds.show_stock_price(self.stock_ticker, abs_change)
+            current_stock_price = ds.show_stock_price(self.stock_ticker, abs_change, trading_volume)
             # Get analyst predictions and assign median_price
             median_price = fd.scrape_analyst_predictions(self.stock_ticker)
             
