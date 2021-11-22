@@ -9,7 +9,7 @@ The app uses Streamlit to create a web-based GUI to enable easy hosting if desir
 
 The hosted app can be found at https://share.streamlit.io/tristanfluechter/streamlit-fa/main/stock_evaluator.py
 
-Copyright: Tristan Fluechter, Odhrán MacDonnel, Anirudh Bhatia, Kunal Gupta
+Copyright: Tristan Fluechter, Odhrán MacDonnell, Anirudh Bhatia, Kunal Gupta
 """
 
 # Import necessary external libraries
@@ -25,11 +25,6 @@ import modules.google_news as gn # to scrape google news
 import modules.linear_regression as lr # to perform and evaluate linear regression
 import modules.LSTM_prediction as lstm # to perform and evaluate LSTM
 import modules.sentiment_analysis as sa # to perform and evaluate sentiment analysis
-
-#! ASK: Module logic?
-#! ASK: Comment amount?
-#! ASK: Do we need streamlit + command line?
-#! ASK: Import libraries in model, right? What about modules that use the same library?
 
 def homepage(stock_ticker, start_date, end_date):
     """
@@ -259,6 +254,7 @@ def get_stock_inputs():
     Sidebar inputs for stock ticker and timeframe.
     Returns: stock_ticker, start_date, end_date
     """
+    # TODO Error handling
     
     # Get ticker
     stock_ticker = st.sidebar.text_input("Please enter stock ticker:", value="MSFT")
@@ -329,5 +325,4 @@ def app():
         stock.prediction(stock_news)
 
 # Run streamlit app
-app()  
- 
+app()
