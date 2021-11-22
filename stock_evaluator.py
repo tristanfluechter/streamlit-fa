@@ -258,11 +258,11 @@ def get_stock_inputs():
     # TODO IF TICKER THEN NAVIGATION
     
     # Get ticker
-    stock_ticker = st.sidebar.text_input("Please enter stock ticker:", value="MSFT")
+    stock_ticker = st.sidebar.text_input("__Please enter stock ticker:__", value="MSFT")
     # Get start date (default date: Jan 1, 2021)
-    start_date = st.sidebar.date_input("Please select a start date for stock analysis: ", value = datetime.date(2021,1,1))
+    start_date = st.sidebar.date_input("__Please select a start date for stock analysis:__ ", value = datetime.date(2021,1,1))
     # Get end date (default date: Today)
-    end_date = st.sidebar.date_input("Please select an end date for stock analysis: ", max_value= datetime.date.today())
+    end_date = st.sidebar.date_input("__Please select an end date for stock analysis:__ ", max_value= datetime.date.today())
     
     date_difference = (end_date - start_date).days
     
