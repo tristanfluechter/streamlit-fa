@@ -286,6 +286,11 @@ def get_stock_data(stock_ticker, start_date, end_date):
     stock_data = data.DataReader(stock_ticker, "yahoo", start_date, end_date)
     return stock_data
 
+def error_message():
+    st.header("ERROR: Could not execute module.")
+    st.image("/images/Error_Message.jpg")
+    st.write("An error has occurred. The reason is an invalid input in either the stock ticker or date sidebar widgets. Please ensure correct format (valid ticker and start/end dates).")
+
 def app():
     """
     Main streamlit app to deploy.
