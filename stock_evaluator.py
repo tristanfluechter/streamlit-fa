@@ -254,7 +254,6 @@ def get_stock_inputs():
     Sidebar inputs for stock ticker and timeframe.
     Returns: stock_ticker, start_date, end_date
     """
-    # TODO Error handling
     # TODO IF TICKER THEN NAVIGATION
     
     # Get ticker
@@ -262,7 +261,7 @@ def get_stock_inputs():
     # Get start date (default date: Jan 1, 2021)
     start_date = st.sidebar.date_input("Please select a start date for stock analysis: ", value = datetime.date(2021,1,1))
     # Get end date (default date: Today)
-    end_date = st.sidebar.date_input("Please select an end date for stock analysis: ", max_value= datetime.date.today())
+    end_date = st.sidebar.date_input("Please select an end date for stock analysis: ", min_value = (start_date - 30), max_value= datetime.date.today())
     
     #Spacer
     st.sidebar.write("***")
