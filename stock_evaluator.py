@@ -320,8 +320,8 @@ def app():
     except:
         st.sidebar.error("""Error: Could not create stock object. 
                          Please check sidebar inputs.
-                         ***
                          """)
+        st.sidebar.write("***")
 
     # Create navigation
     
@@ -363,7 +363,7 @@ def app():
         try:
             stock.prediction(stock_news)
         except:
-            st.error('This is an error')
+            error_message()
 
 # Run streamlit app
 app()
