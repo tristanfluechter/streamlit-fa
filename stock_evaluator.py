@@ -248,8 +248,6 @@ class StockPrediction:
         # Create prediction (0 or 1) for news headlines
         sa.rf_predict(stock_news, countvector, randomclassifier)
 
-# Define error message
-error_msg = st.write("Invalid stock ticker input - please put in stock ticker in correct format.")
 
 def get_stock_inputs():
     """
@@ -317,36 +315,16 @@ def app():
     )
 
     # Navigate pages according to user input
-    
     if navigation == "Homepage":
-        try:
-            homepage(stock_ticker, start_date, end_date)   
-        except:
-            error_msg
-            
+        homepage(stock_ticker, start_date, end_date)   
     elif navigation == "Basic Information":
-        try:
-            stock.stock_information()
-        except:
-            error_msg
-            
+        stock.stock_information()
     elif navigation == "Descriptive Statistics":
-        try:
-            stock.descriptive_stats()
-        except:
-            error_msg
-            
+        stock.descriptive_stats()
     elif navigation == "Advanced Analytical Charts":
-        try:
-            stock.advanced_descriptive_stats()
-        except:
-            error_msg
-            
+        stock.advanced_descriptive_stats()
     elif navigation == "Predictive Models":
-        try:
-            stock.prediction(stock_news)
-        except:
-            error_msg
+        stock.prediction(stock_news)
 
 # Run streamlit app
 app()
