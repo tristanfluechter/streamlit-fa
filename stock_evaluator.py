@@ -322,16 +322,17 @@ def app():
     )
 
     # Navigate pages according to user input
-    if navigation == "Homepage":
-        homepage(stock_ticker, start_date, end_date)   
-    elif navigation == "Basic Information":
-        stock.stock_information()
-    elif navigation == "Descriptive Statistics":
-        stock.descriptive_stats()
-    elif navigation == "Advanced Analytical Charts":
-        stock.advanced_descriptive_stats()
-    elif navigation == "Predictive Models":
-        stock.prediction(stock_news)
+    if stock:
+        if navigation == "Homepage":
+            homepage(stock_ticker, start_date, end_date)   
+        elif navigation == "Basic Information":
+            stock.stock_information()
+        elif navigation == "Descriptive Statistics":
+            stock.descriptive_stats()
+        elif navigation == "Advanced Analytical Charts":
+            stock.advanced_descriptive_stats()
+        elif navigation == "Predictive Models":
+            stock.prediction(stock_news)
 
 # Run streamlit app
 app()
