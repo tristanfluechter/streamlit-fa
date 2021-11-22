@@ -305,23 +305,16 @@ def app():
     # Get user input (needed for all functions!)
     try:
         stock_ticker, start_date, end_date = get_stock_inputs()
-        
-    except: 
-        st.sidebar.write("Invalid input - please re-enter correct ticker.")
     
-    # Get stock data if user input has been correct.
-    # Error handling
-    try: 
+        # Get stock data if user input has been correct.
+        # Error handling
         stock_data = get_stock_data(stock_ticker, start_date, end_date)
         stock_news = gn.get_headlines(stock_ticker)
         st.sidebar.write(f"Successfully imported stock data for {stock_ticker}!")
-    
-    except:
-        st.sidebar.write(f"Invalid ticker or date input. Please re-enter parameters.")
-    
-    # Create StockPrediction object
-    try:
+        
+        # Create StockPrediction object
         stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
+        
     except:
         st.sidebar.write("Could not create stock object. Please check sidebar inputs.")
 
