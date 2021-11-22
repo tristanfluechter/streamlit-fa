@@ -261,15 +261,15 @@ def get_stock_inputs():
     # Get start date (default date: Jan 1, 2021)
     start_date = st.sidebar.date_input("Please select a start date for stock analysis: ", value = datetime.date(2021,1,1))
     # Get end date (default date: Today)
-    end_date = st.sidebar.date_input("Please select an end date for stock analysis: ", min_value = (start_date - 30), max_value= datetime.date.today())
+    end_date = st.sidebar.date_input("Please select an end date for stock analysis: ", max_value= datetime.date.today())
     
     #Spacer
     st.sidebar.write("***")
     
     date_difference = (end_date - start_date).days
     
-    if date_difference <= 60 and date_difference >= 0:
-        st.sidebar.write(f"Selected timeframe is {date_difference} days. For optimal results, we recommend a timeframe > 60 days.")
+    if date_difference <= 100 and date_difference >= 0:
+        st.sidebar.write(f"Selected timeframe is {date_difference} days (should be > 100 for full functionality).")
     elif date_difference <= 0:
         st.sidebar.write("Selected timeframe is negative. Please enter in correct format.")
 
@@ -353,10 +353,10 @@ def app():
         except:
             error_message()
     elif navigation == "Advanced Analytical Charts":
-        try:
-            stock.advanced_descriptive_stats()
-        except:
-            error_message()
+        #try:
+        stock.advanced_descriptive_stats()
+        #except:
+            #error_message()
     elif navigation == "Predictive Models":
         try:
             stock.prediction(stock_news)
