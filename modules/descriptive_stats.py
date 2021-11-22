@@ -4,6 +4,7 @@ This module uses a created Pandas Dataframe to conduct descriptive statistics.
 # Import relevant libraries
 from yahoo_fin import stock_info as si # to import stock data
 from pandas.plotting import autocorrelation_plot # to get autocorrelation plot
+import pandas_ta as ta
 import matplotlib.pyplot as plt # to display autocorrelation plot
 import matplotlib.dates as mdates # to convert dates to numeric
 import numpy as np # for fast calculations
