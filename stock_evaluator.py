@@ -332,7 +332,10 @@ def app():
 
     # Navigate pages according to user input
     if navigation == "Homepage":
-        homepage(stock_ticker, start_date, end_date)   
+        try:
+            homepage(stock_ticker, start_date, end_date)  
+        except:
+            st.write("Doesn't work lol") 
     elif navigation == "Basic Information":
         stock.stock_information()
     elif navigation == "Descriptive Statistics":
