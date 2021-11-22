@@ -9,7 +9,7 @@ The app uses Streamlit to create a web-based GUI to enable easy hosting if desir
 
 The hosted app can be found at https://share.streamlit.io/tristanfluechter/streamlit-fa/main/stock_evaluator.py
 
-Copyright: Tristan Fluechter, Odhrán MacDonnell, Anirudh Bhatia, Kunal Gupta
+Copyright: Tristan Fluechter, Odhrán McDonnell, Anirudh Bhatia, Kunal Gupta
 """
 
 # Import necessary external libraries
@@ -89,7 +89,7 @@ class StockPrediction:
                  """)
         
         # Get trading volume information
-        abs_change, percent_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
+        abs_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
         # Get Google News Headlines
         gn.print_headlines(self.stock_news, self.stock_ticker)
         # Spacer
@@ -256,13 +256,17 @@ def get_stock_inputs():
     """
     # TODO Error handling
     # TODO IF TICKER THEN NAVIGATION
+    # TODO DATES
     
     # Get ticker
     stock_ticker = st.sidebar.text_input("Please enter stock ticker:", value="MSFT")
     # Get start date (default date: Jan 1, 2021)
-    start_date = st.sidebar.date_input("Please select a start date for stock analysis: ", max_value= datetime.date(2021,3,31), value = datetime.date(2021,1,1))
+    start_date = st.sidebar.date_input("Please select a start date for stock analysis: ", value = datetime.date(2021,1,1))
     # Get end date (default date: Today)
-    end_date = st.sidebar.date_input("Please select an end date for stock analysis: ")
+    end_date = st.sidebar.date_input("Please select an end date for stock analysis: ", max_value= datetime.date.today())
+    
+    if end_date - start_date <= 60:
+        st.sidebar.write("Selected timeframe is less than 60 days. For optimal results, we recommend a timeframe > 60 days.")
 
     return stock_ticker, start_date, end_date
 

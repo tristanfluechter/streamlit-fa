@@ -62,18 +62,16 @@ def scrape_financial_kpi(ticker):
     # Find the Analysts Offering string in the parsed webpage
     # Intraday change is either stored in a "positive" or "negative" table cell
     span_change_intraday = soup.body.find_all('span', {'class':"change--point--q"}) 
-    span_percent_change_intraday = soup.body.find_all('span', {'class':"change--percent--q"}) 
   
     # Find absolute change and percent change in obtained data
     abs_change = re.findall("[-]?\d+\.\d+", str(span_change_intraday[0]))[1] # first value in table is abs change
-    percent_change = re.findall("[-]?\d+\.\d+%", str(span_percent_change_intraday[0]))[1] # second value in table is % change
     
     # Find current trading volume
     span_trading_volume = soup.body.find_all('span', {'class':"primary"})
     trading_volume = re.findall("\d+\.\d+M", str(span_trading_volume[1]))[0]
     
     # Print out intraday change information
-    return abs_change, percent_change, trading_volume
+    return abs_change, trading_volume
     
     
 def main():
