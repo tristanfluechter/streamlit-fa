@@ -255,6 +255,7 @@ def get_stock_inputs():
     Returns: stock_ticker, start_date, end_date
     """
     # TODO IF TICKER THEN NAVIGATION
+    # TODO MORE ERROR HANDLING!
     
     # Get ticker
     stock_ticker = st.sidebar.text_input("Please enter stock ticker:", value="MSFT")
@@ -317,8 +318,7 @@ def app():
         stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
         
     except:
-        st.sidebar.write(""" 
-                         # Error: Could not create stock object. 
+        st.sidebar.error("""Error: Could not create stock object. 
                          Please check sidebar inputs.
                          ***
                          """)
@@ -360,10 +360,10 @@ def app():
         except:
             error_message()
     elif navigation == "Predictive Models":
-        #try:
-        stock.prediction(stock_news)
-        #except:
-            #error_message()
+        try:
+            stock.prediction(stock_news)
+        except:
+            st.error('This is an error')
 
 # Run streamlit app
 app()
