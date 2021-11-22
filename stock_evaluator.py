@@ -270,9 +270,9 @@ def get_stock_inputs():
     date_difference = (end_date - start_date).days
     
     if date_difference <= 100 and date_difference >= 0:
-        st.sidebar.write(f"Selected timeframe is {date_difference} days (should be > 100 for full functionality).")
+        st.sidebar.error(f"Selected timeframe is {date_difference} days (should be > 100 for full functionality).")
     elif date_difference <= 0:
-        st.sidebar.write("Selected timeframe is negative. Please enter in correct format.")
+        st.sidebar.error("Selected timeframe is negative. Please enter in correct format.")
 
     return stock_ticker, start_date, end_date
 
