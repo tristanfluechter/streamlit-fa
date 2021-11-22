@@ -308,6 +308,7 @@ def app():
         # Error handling
         stock_data = get_stock_data(stock_ticker, start_date, end_date)
         stock_news = gn.get_headlines(stock_ticker)
+        st.sidebar.write("***")
         st.sidebar.write(f"Successfully imported stock data for {stock_ticker}!")
         
         # Create StockPrediction object
