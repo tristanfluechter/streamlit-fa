@@ -265,7 +265,7 @@ def get_stock_inputs():
     # Get end date (default date: Today)
     end_date = st.sidebar.date_input("Please select an end date for stock analysis: ", max_value= datetime.date.today())
     
-    if end_date - start_date <= 60:
+    if (end_date - start_date).days <= 60:
         st.sidebar.write("Selected timeframe is less than 60 days. For optimal results, we recommend a timeframe > 60 days.")
 
     return stock_ticker, start_date, end_date
