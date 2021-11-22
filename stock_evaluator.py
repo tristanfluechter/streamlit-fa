@@ -316,8 +316,8 @@ def app():
         stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
         
     except:
-        st.sidebar.write("""
-                         # Could not create stock object. Please check sidebar inputs.
+        st.sidebar.write(""" # Could not create stock object. 
+                         # Please check sidebar inputs.
                          """)
 
     # Create navigation
