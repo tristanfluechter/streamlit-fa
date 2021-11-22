@@ -180,7 +180,7 @@ class StockPrediction:
         # Plot MACD
         st.subheader("Candlechart Graph and Moving Average Convergence / Divergence")
         st.write("Crossing lines indicate stock downtrend / uptrend")
-        ds.plot_macd(self.stock_data, self.stock_ticker, self.start_date, self.end_date)
+        ds.plot_macd(self.stock_data, self.stock_ticker)
         # Plot autocorrelation plot
         st.subheader("Autocorrelation Plot: How is the time series correlated with itself?")
         ds.calculate_autocorrelation(self.stock_data)

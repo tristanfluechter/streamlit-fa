@@ -234,7 +234,7 @@ def plot_weighted_ma(stockdata, ticker, startdate, enddate):
     # Show graph
     st.plotly_chart(fig, use_container_width = True)
 
-def plot_macd(stockdata, ticker, startdate, enddate):
+def plot_macd(stockdata, ticker):
     """
     Code credit: https://www.alpharithms.com/calculate-macd-python-272222/
     This program plots the price chart combined with a moving average convergence / divergence.
