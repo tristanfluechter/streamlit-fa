@@ -267,7 +267,7 @@ def get_stock_inputs():
     
     if (end_date - start_date).days <= 60:
         st.sidebar.write("Selected timeframe is less than 60 days. For optimal results, we recommend a timeframe > 60 days.")
-    elif (end_date - start_date) <= 0:
+    elif (end_date - start_date).days <= 0:
         st.sidebar.write("Selected timeframe is negative. Please enter in correct format.")
     else:
         st.sidebar.write(f"Successfully selected {(end_date - start_date).days} days timeframe.")
