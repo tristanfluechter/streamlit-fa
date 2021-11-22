@@ -264,6 +264,9 @@ def get_stock_inputs():
     # Get end date (default date: Today)
     end_date = st.sidebar.date_input("Please select an end date for stock analysis: ", max_value= datetime.date.today())
     
+    #Spacer
+    st.sidebar.write("***")
+    
     date_difference = (end_date - start_date).days
     
     if date_difference <= 60 and date_difference >= 0:
@@ -308,7 +311,6 @@ def app():
         # Error handling
         stock_data = get_stock_data(stock_ticker, start_date, end_date)
         stock_news = gn.get_headlines(stock_ticker)
-        st.sidebar.write("***")
         st.sidebar.write(f"Successfully imported stock data for {stock_ticker}!")
         
         # Create StockPrediction object
@@ -318,6 +320,7 @@ def app():
         st.sidebar.write(""" 
                          # Could not create stock object. 
                          Please check sidebar inputs.
+                         ***
                          """)
 
     # Create navigation
