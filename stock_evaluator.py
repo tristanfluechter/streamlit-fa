@@ -267,7 +267,7 @@ def get_stock_inputs():
     date_difference = (end_date - start_date).days
     
     if date_difference <= 60:
-        st.sidebar.write(f"Selected timeframe is {date_difference}} days. For optimal results, we recommend a timeframe > 60 days.")
+        st.sidebar.write(f"Selected timeframe is {date_difference} days. For optimal results, we recommend a timeframe > 60 days.")
     elif date_difference <= 0:
         st.sidebar.write("Selected timeframe is negative. Please enter in correct format.")
     else:
