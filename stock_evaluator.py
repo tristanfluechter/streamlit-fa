@@ -91,7 +91,7 @@ class StockPrediction:
         # Get trading volume information
         abs_change, percent_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
         # Get Google News Headlines
-        gn.print_headlines(self.stock_news, self.stock_ticker)
+        gn.print_headlines(self.stock_news, self.stock_ticker, trading_volume)
         # Spacer
         st.write("***")
         
@@ -160,8 +160,7 @@ class StockPrediction:
     
     def advanced_descriptive_stats(self):
         """
-        Displays custom-weighted 6-day moving average as well as MACD plot and
-        autocorrelation plot.
+        Displays custom-weighted 6-day moving average as well as MACD plot.
         """
         
         # Header
@@ -181,9 +180,6 @@ class StockPrediction:
         st.subheader("Candlechart Graph and Moving Average Convergence / Divergence")
         st.write("Crossing lines indicate stock downtrend / uptrend")
         ds.plot_macd(self.stock_data, self.stock_ticker)
-        # Plot autocorrelation plot
-        st.subheader("Autocorrelation Plot: How is the time series correlated with itself?")
-        ds.calculate_autocorrelation(self.stock_data)
     
     def prediction(self, stock_news):
         """

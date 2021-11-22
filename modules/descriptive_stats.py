@@ -39,7 +39,7 @@ def plot_stockdata(stockdata):
     #Show the graph
     st.plotly_chart(fig, use_container_width = True)
 
-def show_stock_price(ticker, delta):
+def show_stock_price(ticker, delta, trading_volume):
     """
     A program that returns the current stock price.
     """
@@ -48,6 +48,7 @@ def show_stock_price(ticker, delta):
     # Display current stock price as metric with change
     st.subheader(f"Current stock price of {ticker}: ")
     st.metric("USD", current_stock_price, delta)
+    st.write(f"Trading volume: {trading_volume}")
 
     return current_stock_price
 
@@ -166,7 +167,8 @@ def plot_simple_ma(stockdata):
 def calculate_autocorrelation(stockdata):
     """
     This program calculates the amount of autocorrelation of a given stock
-    to give additional insights for short-term traders.
+    to give additional insights for short-term traders. It is currently unused
+    in the program but could be used for further analysis.
     """
     # Create matplotlib figure
     fig = plt.figure(figsize=(12,6))
