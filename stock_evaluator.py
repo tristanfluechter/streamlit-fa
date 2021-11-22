@@ -356,8 +356,8 @@ def app():
         try:
             stock.advanced_descriptive_stats()
         except KeyError:
-            st.write("Entered timeframe too short for MACD analysis.")
-        finally:
+            st.error("Entered timeframe too short for MACD analysis.")
+        except:
             error_message()
     elif navigation == "Predictive Models":
         try:
