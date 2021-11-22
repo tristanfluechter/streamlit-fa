@@ -26,6 +26,11 @@ import modules.linear_regression as lr # to perform and evaluate linear regressi
 import modules.LSTM_prediction as lstm # to perform and evaluate LSTM
 import modules.sentiment_analysis as sa # to perform and evaluate sentiment analysis
 
+#! ASK: Module logic?
+#! ASK: Comment amount?
+#! ASK: Do we need streamlit + command line?
+#! ASK: Import libraries in model, right? What about modules that use the same library?
+
 def homepage(stock_ticker, start_date, end_date):
     """
     This is the starting point of our module - the homepage.
