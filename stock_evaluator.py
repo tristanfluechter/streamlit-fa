@@ -299,7 +299,7 @@ def app():
         stock_ticker, start_date, end_date = get_stock_inputs()
         
     except: 
-        st.sidebar.write("Invalid stock ticker input. Please re-enter correct ticker.")
+        st.sidebar.write("Invalid input - please re-enter correct ticker.")
     
     # Get stock data if user input has been correct.
     # Error handling
@@ -312,10 +312,9 @@ def app():
         st.sidebar.write(f"Invalid ticker or date input. Please re-enter parameters.")
     
     # Create StockPrediction object
-    try:
-        stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
-    except:
-        st.write("Could not create stock object. Please check if date and ticker has been entered correctly.")
+    
+    stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
+
     
     # Create navigation
     
