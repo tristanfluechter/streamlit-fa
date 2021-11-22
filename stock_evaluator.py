@@ -337,7 +337,10 @@ def app():
         except:
             st.write("Doesn't work lol") 
     elif navigation == "Basic Information":
-        stock.stock_information()
+        try:
+            stock.stock_information()
+        except:
+            st.write("Doesnt work lol")
     elif navigation == "Descriptive Statistics":
         stock.descriptive_stats()
     elif navigation == "Advanced Analytical Charts":
