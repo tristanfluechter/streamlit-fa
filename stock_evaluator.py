@@ -248,6 +248,8 @@ class StockPrediction:
         # Create prediction (0 or 1) for news headlines
         sa.rf_predict(stock_news, countvector, randomclassifier)
 
+# Define error message
+error_msg = st.write("Invalid stock ticker input - please put in stock ticker in correct format.")
 
 def get_stock_inputs():
     """
@@ -289,7 +291,7 @@ def app():
     try:
         stock_ticker, start_date, end_date = get_stock_inputs()
     except:
-        st.write("Wrong stock ticker input - please put in stock ticker in correct format.")
+        error_msg
     
     # Get stock data if user input has been correct.
     # Error handling
@@ -306,7 +308,7 @@ def app():
         stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
     
     except:
-        st.write("Please enter stock ticker, start date and end date!")
+        error_msg
     
     # Create navigation
     
@@ -322,17 +324,36 @@ def app():
     )
 
     # Navigate pages according to user input
-    if stock:
-        if navigation == "Homepage":
+    
+    if navigation == "Homepage":
+        try:
             homepage(stock_ticker, start_date, end_date)   
-        elif navigation == "Basic Information":
+        except:
+            error_msg
+            
+    elif navigation == "Basic Information":
+        try:
             stock.stock_information()
-        elif navigation == "Descriptive Statistics":
+        except:
+            error_msg
+            
+    elif navigation == "Descriptive Statistics":
+        try:
             stock.descriptive_stats()
-        elif navigation == "Advanced Analytical Charts":
+        except:
+            error_msg
+            
+    elif navigation == "Advanced Analytical Charts":
+        try:
             stock.advanced_descriptive_stats()
-        elif navigation == "Predictive Models":
+        except:
+            error_msg
+            
+    elif navigation == "Predictive Models":
+        try:
             stock.prediction(stock_news)
+        except:
+            error_msg
 
 # Run streamlit app
 app()
