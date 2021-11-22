@@ -11,9 +11,11 @@ from statsmodels.tsa.seasonal import seasonal_decompose
 from statsmodels.tsa.stattools import acf, pacf
 from statsmodels.tsa.arima_model import ARIMA
 
-# TODO Write in functional way
+#* DONE Write in functional way
 # TODO Name Graphs and axes
 # TODO Insert into streamlit logic
+# TODO Cite source for code
+#! How does ARIMA work? Which graphs do we really need? What do we need to explain?
 
 def data_importer():
    
