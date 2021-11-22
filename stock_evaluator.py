@@ -287,11 +287,19 @@ def get_stock_data(stock_ticker, start_date, end_date):
     stock_data = data.DataReader(stock_ticker, "yahoo", start_date, end_date)
     return stock_data
 
-def error_message():
+def error_message_general():
     st.write("""
              # Error: Could not execute module.
              An error has occurred. The reason is an invalid input in either the stock ticker or date sidebar widgets. 
              Please ensure correct format (valid ticker and start/end dates).
+             """)
+    st.image("images/Error_Message.jpg")
+
+def error_message_predictive():
+    st.write("""
+             # Error: Could not execute module.
+             Entered timeframe is not long enough to train the predictive model. Please enter a timframe
+             of at least 100 days.
              """)
     st.image("images/Error_Message.jpg")
     
@@ -341,30 +349,29 @@ def app():
         try:
             homepage(stock_ticker, start_date, end_date)  
         except:
-            error_message()
+            error_message_general()
     elif navigation == "Basic Information":
         try:
             stock.stock_information()
         except:
-            error_message()
+            error_message_general()
     elif navigation == "Descriptive Statistics":
         try:
             stock.descriptive_stats()
         except:
-            error_message()
+            error_message_general()
     elif navigation == "Advanced Analytical Charts":
         try:
             stock.advanced_descriptive_stats()
         except KeyError:
             st.error("Entered timeframe too short for MACD analysis.")
         except:
-            error_message()
+            error_message_general()
     elif navigation == "Predictive Models":
         try:
             stock.prediction(stock_news)
-        except WebSocketClosedError:
-            st.error("Entered timeframe...")
-            #error_message()
+        except:
+            error_message_predictive()
 
 # Run streamlit app
 app()
