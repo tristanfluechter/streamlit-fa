@@ -318,7 +318,7 @@ def app():
         
     except:
         st.sidebar.write(""" 
-                         # Could not create stock object. 
+                         # Error: Could not create stock object. 
                          Please check sidebar inputs.
                          ***
                          """)
