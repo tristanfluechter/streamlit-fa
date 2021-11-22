@@ -48,7 +48,7 @@ def homepage(stock_ticker, start_date, end_date):
     __This app has been created by:__
     
     Tristan Fluechter,
-    Odhrán MacDonnel,
+    Odhrán McDonnell,
     Anirudh Bhatia and
     Kunal Gupta   
 
@@ -255,6 +255,7 @@ def get_stock_inputs():
     Returns: stock_ticker, start_date, end_date
     """
     # TODO Error handling
+    # TODO IF TICKER THEN NAVIGATION
     
     # Get ticker
     stock_ticker = st.sidebar.text_input("Please enter stock ticker:", value="MSFT")
@@ -285,7 +286,10 @@ def app():
     st.set_page_config(layout="wide")
     
     # Get user input (needed for all functions!)
-    stock_ticker, start_date, end_date = get_stock_inputs()
+    try:
+        stock_ticker, start_date, end_date = get_stock_inputs()
+    except:
+        st.write("Wrong stock ticker input - please put in stock ticker in correct format.")
     
     # Get stock data if user input has been correct.
     # Error handling
@@ -298,9 +302,14 @@ def app():
         st.sidebar.write(f"Invalid ticker or date input. Please re-enter parameters.")
     
     # Create StockPrediction object
-    stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
+    try:
+        stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
+    
+    except:
+        st.write("Please enter stock ticker, start date and end date!")
     
     # Create navigation
+    
     navigation = st.sidebar.selectbox(
         "Navigation",
         [
