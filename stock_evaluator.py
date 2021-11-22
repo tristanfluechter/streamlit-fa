@@ -301,11 +301,7 @@ def app():
         st.sidebar.write(f"Invalid ticker or date input. Please re-enter parameters.")
     
     # Create StockPrediction object
-    try:
-        stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
-    
-    except:
-        error_msg
+    stock = StockPrediction(stock_data, stock_ticker, start_date, end_date, stock_news)
     
     # Create navigation
     
