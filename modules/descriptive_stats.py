@@ -243,12 +243,9 @@ def plot_macd(stockdata, ticker):
     This program plots the price chart combined with a moving average convergence / divergence.
     """
 
-    # Error handling: Timeframe long enough?
-    try:
-        # Calculate MACD values and append them to stockdata dataframe
-        stockdata.ta.macd(close='Close', fast=12, slow=26, append=True)
-    except:
-        st.write("Entered timeframe is not long enough for MACD analysis.")
+
+    # Calculate MACD values and append them to stockdata dataframe
+    stockdata.ta.macd(close='Close', fast=12, slow=26, append=True)
     
     # Generate plotly plot object
     fig = make_subplots(rows=2, cols=1, subplot_titles=[f"Candlechart: Ticker {ticker} over time.", "MACD"],)

@@ -353,15 +353,17 @@ def app():
         except:
             error_message()
     elif navigation == "Advanced Analytical Charts":
-        #try:
-        stock.advanced_descriptive_stats()
-        #except:
-            #error_message()
-    elif navigation == "Predictive Models":
         try:
-            stock.prediction(stock_news)
+            stock.advanced_descriptive_stats()
+        except KeyError:
+            st.write("Entered timeframe too short for MACD analysis.")
         except:
             error_message()
+    elif navigation == "Predictive Models":
+        #try:
+        stock.prediction(stock_news)
+        #except:
+            #error_message()
 
 # Run streamlit app
 app()
