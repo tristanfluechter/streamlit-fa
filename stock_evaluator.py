@@ -308,7 +308,7 @@ def app():
             "Basic Information",
             "Descriptive Statistics",
             "Advanced Analytical Charts",
-            "Price Prediction"
+            "Predictive Models"
         ],
     )
 
@@ -321,7 +321,7 @@ def app():
         stock.descriptive_stats()
     elif navigation == "Advanced Analytical Charts":
         stock.advanced_descriptive_stats()
-    elif navigation == "Price Prediction":
+    elif navigation == "Predictive Models":
         stock.prediction(stock_news)
 
 # Run streamlit app
