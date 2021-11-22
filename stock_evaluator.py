@@ -288,10 +288,7 @@ def app():
     st.set_page_config(layout="wide")
     
     # Get user input (needed for all functions!)
-    try:
-        stock_ticker, start_date, end_date = get_stock_inputs()
-    except:
-        error_msg
+    stock_ticker, start_date, end_date = get_stock_inputs()
     
     # Get stock data if user input has been correct.
     # Error handling
