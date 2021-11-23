@@ -254,8 +254,6 @@ def get_stock_inputs():
     Sidebar inputs for stock ticker and timeframe.
     Returns: stock_ticker, start_date, end_date
     """
-    # TODO IF TICKER THEN NAVIGATION
-    # TODO MORE ERROR HANDLING!
     
     # Get ticker
     stock_ticker = st.sidebar.text_input("Please enter stock ticker:", value="MSFT")
