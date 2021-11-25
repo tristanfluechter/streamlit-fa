@@ -270,7 +270,16 @@ class StockPrediction:
             ***
                  
             """)
-
+        
+        abs_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
+        ds.show_stock_price(self.stock_ticker, abs_change, trading_volume)
+        # Get analyst predictions and assign median_price
+        fd.scrape_analyst_predictions(self.stock_ticker)
+        
+        st.write(f"Regression Prediction: {reg_pred}")
+        st.write(f"LSTM prediction: {lstm_pred}")
+        st.write(f"Prophet Prediction: {prophet_pred}")
+        st.write(f"Random Forest Sentiment Analysis Prediction: ")
 
 def get_stock_inputs():
     """
