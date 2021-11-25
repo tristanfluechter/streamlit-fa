@@ -243,7 +243,7 @@ class StockPrediction:
             ***
                  
             """)
-        
+        st.write(self.stock_data.head())
         pf.prophet_forecast(self.stock_data)
         
         
