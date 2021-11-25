@@ -9,18 +9,19 @@ import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 from prophet import Prophet
 from prophet.plot import plot_plotly, plot_components_plotly
-
 import warnings
 warnings.filterwarnings('ignore')  # Hide warnings
 import plotly.graph_objects as go
-import matplotlib.pyplot as plt
-
-stock_data = data_importer.get_yahoo_data("MSFT", "2020-01-01", "2021-10-10")
-
-
+import streamlit as st
 
 def prophet_forecast(stock_data):
-    # Reset Index
+    """
+    This module creates a stock forecast with the Facebook Prophet model based on the
+    stock_data dataframe. It also creates a trendline as well as a weekday analysis of
+    stock movement.
+    """
+    
+    # Reset Dataframe Index
     stock_data.reset_index(inplace=True)
     
     # Get relevant columns
@@ -43,9 +44,8 @@ def prophet_forecast(stock_data):
     # Make future predictions
     future = m.make_future_dataframe(periods=411)
     forecast = m.predict(future)
-    forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].tail()
 
-    # Create plotly figure
+    # Create plotly figure for forecast
     fig = plot_plotly(m, forecast)
     
     # Format with program-specific Layout
@@ -60,13 +60,31 @@ def prophet_forecast(stock_data):
     fig.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     fig.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     
+    # Rename legend (Prophet naming unsuitable)
     fig.data[0].name="Actual Price"
     fig.data[1].name="Lower Bound"
     fig.data[3].name="Upper Bound"
     
+    # Subheader
+    st.subheader("Facebook Prophet Price Prediction")
+    
+    # Show prediction graph
     fig.show()
     
+    # Create components analysis plotly object
     fig2 = plot_components_plotly(m, forecast)
+    
+    # Formate layout and axes
+    fig2.layout.update(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+    fig2.update_yaxes(title_text="Trend", row=1)
+    fig2.update_yaxes(title_text="Weekday Trend", row=2)
+    
+    # Show chart axes lines
+    fig2.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    fig2.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
+    
+    # Subheader
+    st.subheader("Facebook Prophet Components Analysis")
+    
+    # Show Graph
     fig2.show()
-
-prophet_forecast(stock_data)
