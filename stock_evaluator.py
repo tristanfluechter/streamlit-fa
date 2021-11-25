@@ -272,7 +272,7 @@ class StockPrediction:
         # Header
         st.write(f"""
             # Stock Prediction: Recommendation
-            Should you buy or sell {self.stock_ticker}?
+            Should you buy {self.stock_ticker}? Current stock price: {self.stock_data["Close"].iloc[-1]}
             ***
                  
             """)
