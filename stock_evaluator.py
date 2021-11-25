@@ -243,7 +243,7 @@ class StockPrediction:
             ***
                  
             """)
-        pf.prophet_forecast(self.stock_data)
+        prophet_pred = pf.prophet_forecast(self.stock_data)
         
         
         # Header
@@ -262,6 +262,14 @@ class StockPrediction:
         randomclassifier = pickle.load(open("data/randomforest_sentiment_classifier.sav", "rb"))
         # Create prediction (0 or 1) for news headlines
         sa.rf_predict(stock_news, countvector, randomclassifier)
+        
+        # Header
+        st.write(f"""
+            # Stock Prediction: Recommendation
+            Should you buy or sell {self.stock_ticker}?
+            ***
+                 
+            """)
 
 
 def get_stock_inputs():
