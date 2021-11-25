@@ -23,6 +23,10 @@ def train_rf_model():
     market the next day.
     Dataset can be found at:  https://github.com/ronylpatil/Stock-Sentiment-Analysis
     
+    This model should only be used if a new model is to be created. The Random Forest Classifier
+    has been pre-trained for quickness of use - therefore, train_rf_model() is not used
+    in the current script.
+    
     Returns: countvector, randomclassifier
     """
     # Get current working directory
@@ -93,7 +97,10 @@ def train_rf_model():
     return countvector, randomclassifier
 
 def rf_predict(stock_news, countvector, randomclassifier):
-
+    """
+    Creates a binary prediction of whether or not the stock might be
+    expected to increase (1) or decrease (0) in value on the following day.
+    """
     # Create empty stock headlines list
     stock_news_headlines = []
     

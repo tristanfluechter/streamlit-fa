@@ -251,7 +251,15 @@ class StockPrediction:
             ***
                  
             """)
-        prophet_pred = pf.prophet_forecast(self.stock_data)
+        # Create suitable dataset
+        prophet_data_train = pf.prophet_dataprep(self.stock_data)
+        # Create predictions
+        m, forecast, prophet_pred = pf.prophet_forecast(prophet_data_train)
+        # Plot forecast
+        pf.prophet_visualize_forecast(m, forecast)
+        # Plot components
+        pf.prophet_visualize_components(m, forecast)
+        
         
         
         # Header
