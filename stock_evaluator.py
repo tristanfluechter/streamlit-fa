@@ -18,6 +18,7 @@ import datetime # to get correct date inputs
 import pandas_datareader as data # to read stock data
 import pickle # to import pre-trained ML countvector and randomforest
 import pandas as pd
+from sympy import rf
 
 # Import necessary modules
 import modules.descriptive_stats as ds # for descriptive statistics
@@ -285,7 +286,6 @@ class StockPrediction:
         
         # Create column 2
         col1.subheader("Measures:")
-        
         col1.write("Median Analyst Predictions")
         col1.write("Regression Prediction: ")
         col1.write("Short-Term LSTM Prediction: ")
@@ -294,26 +294,31 @@ class StockPrediction:
         
         # Create column 3
         col2.subheader("Predictions")
-        
         col2.write(f"USD {median_price}")
         col2.write(f"USD {reg_pred}")
         col2.write(f"USD {lstm_pred}")
         col2.write(rf_pred)
         col2.write(f"USD {prophet_pred}")
         
+        # Check if there are more positive than negative predictions with list comprehension
         pred_list = [median_price, reg_pred, lstm_pred, prophet_pred]
         stock_increase_list = []
         
         for x in range(len(pred_list)):
             if pred_list[x] > self.stock_data["Close"].iloc[-1]:
                 stock_increase_list.append(pred_list[x])
-                
-        if len(stock_increase_list) >= 3:
+        
+        # Append sentiment analysis if positive sentiment detected
+        if rf_pred == 1:
+            stock_increase_list.append[rf_pred]
+        
+        # Give user a summary of predictive measures        
+        if len(stock_increase_list) >= 4:
             st.write("Our predictive measures indicate a stock uptrend - we recommend to buy!")
         elif len(stock_increase_list) >= 2:
-            st.write("Our predictive measures seem to indicate a chance of an uptrend - buy cautiously.")
+            st.subheader("Our predictive measures seem to indicate a chance of an uptrend - buy cautiously.")
         else:
-            st.write("Not enough evidence of likely uptrend - we recommend not to buy right now.")
+            st.subheader("Not enough evidence of likely uptrend - we recommend not to buy right now.")
 
 def get_stock_inputs():
     """
