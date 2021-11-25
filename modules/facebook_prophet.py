@@ -51,7 +51,7 @@ def prophet_forecast(stock_data):
     st.write(forecast.tail())
     
     # Get last date of prediction 
-    prophet_pred = forecast["Trend"].tail(1).item()
+    prophet_pred = forecast["trend"].iloc[-1]
     
     st.write(prophet_pred)
 
