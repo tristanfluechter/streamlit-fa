@@ -277,9 +277,10 @@ class StockPrediction:
         fd.scrape_analyst_predictions(self.stock_ticker)
         
         st.write(f"Regression Prediction: {reg_pred}")
-        st.write(f"LSTM prediction: {lstm_pred}")
-        st.write(f"Prophet Prediction: {prophet_pred}")
-        st.write(f"Random Forest Sentiment Analysis Prediction: ")
+        st.write(f"Short-Term LSTM prediction: {lstm_pred}")
+        st.write(f"Short-Term Random Forest Sentiment Analysis Prediction: ")
+        st.write(f"Long-Term Prophet Prediction: {prophet_pred}")
+        
 
 def get_stock_inputs():
     """
