@@ -277,7 +277,7 @@ class StockPrediction:
                  
             """)
         
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3 = st.columns([2,2,1])
         
         with col1:
             abs_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
@@ -286,7 +286,7 @@ class StockPrediction:
         # Get analyst predictions and assign median_price
         median_price, high, low = fd.scrape_analyst_predictions(self.stock_ticker)
         
-        col2.subheader("Predictive Measures")
+        col2.subheader("Measures:")
         
         col2.write("Median Analyst Predictions")
         col2.write("Regression Prediction: ")
@@ -294,11 +294,13 @@ class StockPrediction:
         col2.write("Short-Term Random Forest Sentiment Analysis Prediction: ")
         col2.write("Long-Term Prophet Prediction: ")
         
-        col3.write(median_price)
-        col3.write(reg_pred)
-        col3.write(lstm_pred)
+        col3.subheader("Predictions")
+        
+        col3.write(f"USD {median_price}")
+        col3.write(f"USD {reg_pred}")
+        col3.write(f"USD {lstm_pred}")
         col3.write(" ")
-        col3.write(prophet_pred)
+        col3.write(f"USD {prophet_pred}")
         
 
 def get_stock_inputs():
