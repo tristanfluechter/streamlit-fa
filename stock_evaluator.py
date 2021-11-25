@@ -277,8 +277,10 @@ class StockPrediction:
                  
             """)
         
+        # Create Columns and define width
         col1, col2, col3 = st.columns([2,2,1])
         
+        # Display current price in column 1
         with col1:
             abs_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
             ds.show_stock_price(self.stock_ticker, abs_change, trading_volume)
@@ -286,14 +288,16 @@ class StockPrediction:
         # Get analyst predictions and assign median_price
         median_price, high, low = fd.scrape_analyst_predictions(self.stock_ticker)
         
+        # Create column 2
         col2.subheader("Measures:")
         
         col2.write("Median Analyst Predictions")
         col2.write("Regression Prediction: ")
-        col2.write("Short-Term LSTM prediction: ")
-        col2.write("Short-Term Random Forest Sentiment Analysis Prediction: ")
+        col2.write("Short-Term LSTM Prediction: ")
+        col2.write("Sentiment Analysis: ")
         col2.write("Long-Term Prophet Prediction: ")
         
+        # Create column 3
         col3.subheader("Predictions")
         
         col3.write(f"USD {median_price}")
@@ -420,10 +424,10 @@ def app():
         except:
             error_message_general()
     elif navigation == "Predictive Models":
-        #try:
-        stock.prediction(stock_news)
-        #except:
-            #error_message_predictive()
+        try:
+            stock.prediction(stock_news)
+        except:
+            error_message_predictive()
 
 # Run streamlit app
 app()
