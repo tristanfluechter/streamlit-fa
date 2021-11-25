@@ -278,33 +278,28 @@ class StockPrediction:
             """)
         
         # Create Columns and define width
-        col1, col2, col3 = st.columns([2,2,1])
-        
-        # Display current price in column 1
-        with col1:
-            abs_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
-            ds.show_stock_price(self.stock_ticker, abs_change, trading_volume)
+        col1, col2 = st.columns([2,1])
             
         # Get analyst predictions and assign median_price
         median_price, high, low = fd.scrape_analyst_predictions(self.stock_ticker)
         
         # Create column 2
-        col2.subheader("Measures:")
+        col1.subheader("Measures:")
         
-        col2.write("Median Analyst Predictions")
-        col2.write("Regression Prediction: ")
-        col2.write("Short-Term LSTM Prediction: ")
-        col2.write("Sentiment Analysis: ")
-        col2.write("Long-Term Prophet Prediction: ")
+        col1.write("Median Analyst Predictions")
+        col1.write("Regression Prediction: ")
+        col1.write("Short-Term LSTM Prediction: ")
+        col1.write("Sentiment Analysis: ")
+        col1.write("Long-Term Prophet Prediction: ")
         
         # Create column 3
-        col3.subheader("Predictions")
+        col2.subheader("Predictions")
         
-        col3.write(f"USD {median_price}")
-        col3.write(f"USD {reg_pred}")
-        col3.write(f"USD {lstm_pred}")
-        col3.write(" ")
-        col3.write(f"USD {prophet_pred}")
+        col2.write(f"USD {median_price}")
+        col2.write(f"USD {reg_pred}")
+        col2.write(f"USD {lstm_pred}")
+        col2.write(" ")
+        col2.write(f"USD {prophet_pred}")
         
 
 def get_stock_inputs():
@@ -354,9 +349,8 @@ def error_message_general():
 def error_message_predictive():
     st.write("""
              # Error: Could not execute module.
-             Entered timeframe is not long enough to train the predictive model. Please enter a timframe
-             of at least 100 days.
              """)
+    st.error("Please enter a timeframe of at least 100 days to ensure sensible prediction.")
     st.image("images/Error_Message.jpg")
     
 def app():
@@ -426,6 +420,8 @@ def app():
     elif navigation == "Predictive Models":
         try:
             stock.prediction(stock_news)
+        except KeyError:
+            st.error("Entered timeframe too short for predictive model.")
         except:
             error_message_predictive()
 
