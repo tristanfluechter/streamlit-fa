@@ -106,7 +106,13 @@ class StockPrediction:
             # Get current stock price
             current_stock_price = ds.show_stock_price(self.stock_ticker, abs_change, trading_volume)
             # Get analyst predictions and assign median_price
-            median_price = fd.scrape_analyst_predictions(self.stock_ticker)
+            median_price, high_price, low_price = fd.scrape_analyst_predictions(self.stock_ticker)
+            
+                # Print out price information
+            st.subheader("Analyst predictions according to CNN Money: ")
+            st.write(f"Median prediction {self.stock_ticker}: USD {median_price}.")
+            st.write(f"Upper-end price target {self.stock_ticker}: USD {high_price}.")
+            st.write(f"Lower-end price target {self.stock_ticker}: USD {low_price}.") 
             
             # Logic check: Will stock price increase / decrease according to analysts?
             if current_stock_price < median_price:
@@ -273,13 +279,24 @@ class StockPrediction:
         
         abs_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
         ds.show_stock_price(self.stock_ticker, abs_change, trading_volume)
-        # Get analyst predictions and assign median_price
-        fd.scrape_analyst_predictions(self.stock_ticker)
         
-        st.write(f"Regression Prediction: {reg_pred}")
-        st.write(f"Short-Term LSTM prediction: {lstm_pred}")
-        st.write(f"Short-Term Random Forest Sentiment Analysis Prediction: ")
-        st.write(f"Long-Term Prophet Prediction: {prophet_pred}")
+        # Get analyst predictions and assign median_price
+        median_price, high, low = fd.scrape_analyst_predictions(self.stock_ticker)
+        st.subheader("Predictive Measures")
+        
+        col1, col2 = st.columns(2)
+        
+        col1.write("Median Analyst Predictions")
+        col1.write("Regression Prediction: ")
+        col1.write("Short-Term LSTM prediction: ")
+        col1.write("Short-Term Random Forest Sentiment Analysis Prediction: ")
+        col1.write("Long-Term Prophet Prediction: ")
+        
+        col2.write(median_price)
+        col2.write(reg_pred)
+        col2.write(lstm_pred)
+        col2.write(" ")
+        col2.write(prophet_pred)
         
 
 def get_stock_inputs():
