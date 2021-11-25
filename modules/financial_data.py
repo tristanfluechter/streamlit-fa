@@ -37,14 +37,8 @@ def scrape_analyst_predictions(ticker):
     median_price = float(analyst_predictions[0])
     high_price = float(analyst_predictions[1])
     low_price = float(analyst_predictions[2])
-
-    # Print out price information
-    st.subheader("Analyst predictions according to CNN Money: ")
-    st.write(f"Median prediction {ticker}: USD {median_price}.")
-    st.write(f"Upper-end price target {ticker}: USD {high_price}.")
-    st.write(f"Lower-end price target {ticker}: USD {low_price}.") 
     
-    return median_price   
+    return median_price, high_price, low_price
     
 def scrape_financial_kpi(ticker):
     """
