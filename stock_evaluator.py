@@ -25,6 +25,7 @@ import modules.google_news as gn # to scrape google news
 import modules.linear_regression as lr # to perform and evaluate linear regression
 import modules.LSTM_prediction as lstm # to perform and evaluate LSTM
 import modules.sentiment_analysis as sa # to perform and evaluate sentiment analysis
+import modules.facebook_prophet as prophet
 
 def homepage(stock_ticker, start_date, end_date):
     """
@@ -230,6 +231,18 @@ class StockPrediction:
         # Show evaluation of LSTM model
         st.subheader("Evaluation of the LSTM model for Predictive Use: ")
         lstm.lstm_evaluation(prediction, close_train)
+        
+        # Header
+        st.write("""
+            # Stock Prediction: Facebook Prophet
+            This module provides a stock forecast using the Facebook Prophet library.
+            A forecast is created (along with a level of confidence) along with a weekday trend analysis.
+            This provides an additional reference point in terms of where the stock may go in the future.
+            ***
+                 
+            """)
+        prophet.prophet_forecast(self.stock_data)
+        
         
         # Header
         st.write("""
