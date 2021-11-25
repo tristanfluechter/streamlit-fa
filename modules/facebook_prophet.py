@@ -25,7 +25,7 @@ def prophet_forecast(stock_data):
     """
     
     # Reset Dataframe Index
-    stock_data.reset_index(inplace=True)
+    stock_data["Date"] = stock_data.index
     
     # Get relevant columns
     prophet_data = stock_data[["Date","Adj Close"]]
