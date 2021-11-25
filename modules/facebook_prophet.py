@@ -69,11 +69,10 @@ def prophet_forecast(stock_data):
     fig.data[3].name="Upper Bound"
     
     # Subheader
-    #st.subheader("Facebook Prophet Price Prediction")
+    st.subheader("Facebook Prophet Price Prediction")
     
     # Show prediction graph
-    #st.plotly_chart(fig, use_container_width = True)
-    fig.show()
+    st.plotly_chart(fig, use_container_width = True)
     
     # Create components analysis plotly object
     fig2 = plot_components_plotly(m, forecast)
@@ -88,8 +87,7 @@ def prophet_forecast(stock_data):
     fig2.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     
     # Subheader
-    #st.subheader("Facebook Prophet Components Analysis")
+    st.subheader("Facebook Prophet Components Analysis")
     
     # Show Graph
-    #st.plotly_chart(fig2, use_container_width = True)
-    fig2.show()
+    st.plotly_chart(fig2, use_container_width = True)
