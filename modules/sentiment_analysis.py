@@ -116,9 +116,15 @@ def rf_predict(stock_news, countvector, randomclassifier):
     # Create prediction
     predictions = randomclassifier.predict(dataset_to_predict)
 
+    st.subheader(f"Analyzed current top 25 Google News headlines.")
+    st.write("The trained Random Forest Classifier has calculated the headline sentiment.")
+
     if predictions == 1:
         st.write("Positive sentiment detected - buy stock.")
+        rf_pred = "Positive Sentiment"
     else:
         st.write("Negative sentiment detected - sell stock.")
+        rf_pred = "Negative Sentiment"
     
-    return predictions
+    return rf_pred
+    

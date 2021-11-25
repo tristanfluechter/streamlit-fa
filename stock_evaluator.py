@@ -267,12 +267,12 @@ class StockPrediction:
         countvector = pickle.load(open("data/vector.pickel", "rb"))
         randomclassifier = pickle.load(open("data/randomforest_sentiment_classifier.sav", "rb"))
         # Create prediction (0 or 1) for news headlines
-        sa.rf_predict(stock_news, countvector, randomclassifier)
+        rf_pred = sa.rf_predict(stock_news, countvector, randomclassifier)
         
         # Header
         st.write(f"""
             # Stock Prediction: Recommendation
-            Should you buy {self.stock_ticker}? Current stock price: {self.stock_data["Close"].iloc[-1].round(2)}
+            Should you buy {self.stock_ticker}? Current stock price: USD {self.stock_data["Close"].iloc[-1].round(2)}
             ***
                  
             """)
@@ -298,7 +298,7 @@ class StockPrediction:
         col2.write(f"USD {median_price}")
         col2.write(f"USD {reg_pred}")
         col2.write(f"USD {lstm_pred}")
-        col2.write(" ")
+        col2.write(rf_pred)
         col2.write(f"USD {prophet_pred}")
         
 
