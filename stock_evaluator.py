@@ -430,10 +430,8 @@ def app():
     elif navigation == "Predictive Models":
         try:
             stock.prediction(stock_news)
-        except KeyError:
-            st.error("Entered timeframe too short for predictive models.")
         except:
-            error_message_general()
+            st.error("Entered timeframe too short for predictive models.")
 
 # Run streamlit app
 app()
