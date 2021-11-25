@@ -47,6 +47,8 @@ def prophet_forecast(stock_data):
     # Make future predictions
     future = m.make_future_dataframe(periods=411)
     forecast = m.predict(future)
+    
+    st.write(forecast.head())
 
     # Create plotly figure for forecast
     fig = plot_plotly(m, forecast)
