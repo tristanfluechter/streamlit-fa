@@ -16,9 +16,7 @@ pd.core.common.is_list_like = pd.api.types.is_list_like
 
 def prophet_dataprep(stock_data):
     """
-    This module creates a stock forecast with the Facebook Prophet model based on the
-    stock_data dataframe. It also creates a trendline as well as a weekday analysis of
-    stock movement.
+    Prepares stock data to suit Facebook Prophet prediction model.
     """
     
     # Reset Dataframe Index
@@ -40,6 +38,9 @@ def prophet_dataprep(stock_data):
     return prophet_data_train
 
 def prophet_forecast(prophet_data_train):
+    """
+    Creates forecast with Facebook Prophet model.
+    """
     # Create Prophet Model
     m = Prophet()
     m.fit(prophet_data_train)
@@ -54,6 +55,9 @@ def prophet_forecast(prophet_data_train):
     return m, forecast, prophet_pred
 
 def prophet_visualize_forecast(m, forecast):
+    """
+    Visualizes forecasted data in a plotly graph.
+    """
     # Create plotly figure for forecast
     fig = plot_plotly(m, forecast)
     
@@ -81,6 +85,9 @@ def prophet_visualize_forecast(m, forecast):
     st.plotly_chart(fig, use_container_width = True)
 
 def prophet_visualize_components(m, forecast):
+    """
+    Visualizes model components (trend & weekday trend).
+    """
     # Create components analysis plotly object
     fig2 = plot_components_plotly(m, forecast)
     
