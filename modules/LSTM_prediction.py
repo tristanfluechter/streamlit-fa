@@ -16,7 +16,6 @@ from keras.preprocessing.sequence import TimeseriesGenerator
 from keras.models import Sequential
 from keras.layers import LSTM, Dense
 import plotly.graph_objects as go
-from modules.data_importer import get_yahoo_data
 import streamlit as st
 
 
@@ -196,14 +195,3 @@ def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noa
 def lstm_evaluation(prediction, close_train):
     root_mean_square_error = np.sqrt(((prediction[0] - close_train[0]) ** 2).mean()).round(2)
     st.write(f"The trained LSTM model shows an RSME of {root_mean_square_error}.")
-
-def main():
-    stock_data, stock_ticker, start_date, end_date = get_yahoo_data()
-    look_back, date_train, date_test, close_train, close_test, train_generator, test_generator, close_data_noarray, close_data = lstm_prepare_data(stock_data, stock_ticker)
-    model, prediction, close_train, close_test = lstm_train(look_back, train_generator, test_generator, close_test, close_train)
-    lstm_visualize(date_test, date_train, close_test, close_train, prediction, stock_ticker)
-    lstm_make_prediction(model, look_back, stock_data, close_data, close_data_noarray, stock_ticker)
-    lstm_evaluation(prediction, close_train)
-    
-if __name__ == "__main__":
-    main()

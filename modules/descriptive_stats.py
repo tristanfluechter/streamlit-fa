@@ -10,7 +10,6 @@ import matplotlib.dates as mdates # to convert dates to numeric
 import numpy as np # for fast calculations
 import plotly.graph_objects as go # to display graphs
 from plotly.subplots import make_subplots # to create subplots
-import modules.data_importer as data_importer
 import streamlit as st # to guarantee streamlit functionality
 
 def plot_stockdata(stockdata):
@@ -290,16 +289,3 @@ def plot_macd(stockdata, ticker):
     fig.update_layout(layout)
     # Show graph
     st.plotly_chart(fig, use_container_width = True)
-    
-def main():
-    stock_data, stock_ticker, start_date, end_date = data_importer.get_yahoo_data()
-    show_stock_price(stock_ticker)
-    describe_stock_data(stock_data, stock_ticker)
-    plot_trendline(stock_data, stock_ticker, start_date, end_date)
-    calculate_autocorrelation(stock_data)
-    plot_simple_ma(stock_data, stock_ticker, start_date, end_date)
-    plot_weighted_ma(stock_data, stock_ticker, start_date, end_date)
-    plot_macd(stock_data, stock_ticker, start_date, end_date)
-
-if __name__ == '__main__':
-    main()

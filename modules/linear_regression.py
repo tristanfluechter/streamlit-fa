@@ -151,12 +151,3 @@ def linear_regression_evaluation(lr_Y, lr_line, lr_rsquared):
         st.write(f"With an r-squared value of {r_squared}, it is __not sufficient__ to rely on a simple regression to predict stock values.")
     else:
         st.write(f"With an r-squared value of {r_squared}, the regression seems to __identify a trend in stock prices__. However, we advise to use additional predictive measures.")
-    
-
-def main():
-    lr_target_date, lr_X, lr_Y = linear_regression_dataprep()
-    lr_line, lr_rsquared = linear_regression()
-    linear_regression_evaluation(lr_Y, lr_line, lr_rsquared)
-
-if __name__ == "__main__":
-    main()
