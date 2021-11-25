@@ -120,3 +120,5 @@ def rf_predict(stock_news, countvector, randomclassifier):
         st.write("Positive sentiment detected - buy stock.")
     else:
         st.write("Negative sentiment detected - sell stock.")
+    
+    return predictions
