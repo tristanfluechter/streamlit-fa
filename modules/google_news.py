@@ -41,11 +41,3 @@ def print_headlines(stock_news, stock_ticker):
     st.write(headline3)
     st.write(headline4)
     st.write(headline5)
-    
-
-def main():
-    get_headlines()
-    print_headlines()
-    
-if __name__ == "__main__":
-    main()

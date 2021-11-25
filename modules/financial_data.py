@@ -66,11 +66,3 @@ def scrape_financial_kpi(ticker):
     
     # Print out intraday change information
     return abs_change, trading_volume
-    
-    
-def main():
-    scrape_analyst_predictions("AAPL")
-    scrape_financial_kpi("AAPL")
-
-if __name__ == "__main__":
-    main()
