@@ -189,7 +189,7 @@ def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noa
     
     st.plotly_chart(fig2, use_container_width=True)
     
-    lstm_pred = prediction_list[-1].round(2)
+    lstm_pred = int(prediction_list[-1])
     
     return lstm_pred
 

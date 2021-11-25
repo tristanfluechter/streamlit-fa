@@ -49,7 +49,7 @@ def prophet_forecast(stock_data):
     forecast = m.predict(future)
 
     # Get last date of prediction 
-    prophet_pred = forecast["trend"].iloc[-1].round(2)
+    prophet_pred = int(forecast["trend"].iloc[-1])
 
     # Create plotly figure for forecast
     fig = plot_plotly(m, forecast)
