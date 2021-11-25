@@ -8,10 +8,14 @@ import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 from prophet import Prophet
 from prophet.plot import plot_plotly, plot_components_plotly
-import warnings
-warnings.filterwarnings('ignore')  # Hide warnings
+# import warnings
+# warnings.filterwarnings('ignore')  # Hide warnings
 import plotly.graph_objects as go
 import streamlit as st
+pd.core.common.is_list_like = pd.api.types.is_list_like
+# import data_importer
+
+# stock_data = data_importer.get_yahoo_data("AAPL", "2020-01-01", "2021-01-01")
 
 def prophet_forecast(stock_data):
     """
@@ -65,9 +69,10 @@ def prophet_forecast(stock_data):
     fig.data[3].name="Upper Bound"
     
     # Subheader
-    st.subheader("Facebook Prophet Price Prediction")
+    #st.subheader("Facebook Prophet Price Prediction")
     
     # Show prediction graph
+    #st.plotly_chart(fig, use_container_width = True)
     fig.show()
     
     # Create components analysis plotly object
@@ -83,7 +88,8 @@ def prophet_forecast(stock_data):
     fig2.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     
     # Subheader
-    st.subheader("Facebook Prophet Components Analysis")
+    #st.subheader("Facebook Prophet Components Analysis")
     
     # Show Graph
+    #st.plotly_chart(fig2, use_container_width = True)
     fig2.show()

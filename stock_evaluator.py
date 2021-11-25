@@ -17,6 +17,7 @@ import streamlit as st # to host the app
 import datetime # to get correct date inputs
 import pandas_datareader as data # to read stock data
 import pickle # to import pre-trained ML countvector and randomforest
+import pandas as pd
 
 # Import necessary modules
 import modules.descriptive_stats as ds # for descriptive statistics
@@ -25,7 +26,8 @@ import modules.google_news as gn # to scrape google news
 import modules.linear_regression as lr # to perform and evaluate linear regression
 import modules.LSTM_prediction as lstm # to perform and evaluate LSTM
 import modules.sentiment_analysis as sa # to perform and evaluate sentiment analysis
-import modules.facebook_prophet as prophet
+import modules.facebook_prophet as pf
+
 
 def homepage(stock_ticker, start_date, end_date):
     """
@@ -242,7 +244,7 @@ class StockPrediction:
                  
             """)
         
-        prophet.prophet_forecast(self.stock_data)
+        pf.prophet_forecast(self.stock_data)
         
         
         # Header
@@ -380,10 +382,10 @@ def app():
         except:
             error_message_general()
     elif navigation == "Predictive Models":
-        try:
-            stock.prediction(stock_news)
-        except:
-            error_message_predictive()
+        #try:
+        stock.prediction(stock_news)
+        #except:
+            #error_message_predictive()
 
 # Run streamlit app
 app()
