@@ -302,8 +302,12 @@ class StockPrediction:
         col2.write(f"USD {prophet_pred}")
         
         pred_list = [median_price, reg_pred, lstm_pred, prophet_pred]
-        stock_increase_list = [x for x in pred_list if pred_list[x] >= self.stock_data["Close"].iloc[-1]]
+        stock_increase_list = []
         
+        for x in range(len(pred_list)):
+            if pred_list[x] > self.stock_data["Close"].iloc[-1]:
+                stock_increase_list.append(pred_list[x])
+                
         if len(stock_increase_list) >= 3:
             st.write("Our predictive measures indicate a stock uptrend - we recommend to buy!")
         elif len(stock_increase_list) >= 2:
