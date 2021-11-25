@@ -241,6 +241,7 @@ class StockPrediction:
             ***
                  
             """)
+        
         prophet.prophet_forecast(self.stock_data)
         
         
