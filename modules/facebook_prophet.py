@@ -78,7 +78,9 @@ def prophet_forecast(stock_data):
     fig2 = plot_components_plotly(m, forecast)
     
     # Formate layout and axes
-    fig2.layout.update(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+    fig2.layout.update(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', 
+                       margin=go.layout.Margin(l=60, r=0, b=0, t=30))
+    
     fig2.update_yaxes(title_text="Trend", row=1)
     fig2.update_yaxes(title_text="Weekday Trend", row=2)
     
