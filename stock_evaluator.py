@@ -18,7 +18,6 @@ import datetime # to get correct date inputs
 import pandas_datareader as data # to read stock data
 import pickle # to import pre-trained ML countvector and randomforest
 import pandas as pd
-from sympy import rf
 
 # Import necessary modules
 import modules.descriptive_stats as ds # for descriptive statistics
