@@ -128,7 +128,7 @@ def linear_regression(stockdata, ticker, targetdate, lr_X, lr_Y):
     st.plotly_chart(fig, use_container_width=True)
     
     # Create final values
-    reg_pred =lr_line[-1]
+    reg_pred =lr_line[-1].round(2)
     
     return lr_line, lr_rsquared, reg_pred
 

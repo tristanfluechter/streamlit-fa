@@ -47,13 +47,9 @@ def prophet_forecast(stock_data):
     # Make future predictions
     future = m.make_future_dataframe(periods=411)
     forecast = m.predict(future)
-    
-    st.write(forecast.tail())
-    
+
     # Get last date of prediction 
-    prophet_pred = forecast["trend"].iloc[-1]
-    
-    st.write(prophet_pred)
+    prophet_pred = forecast["trend"].iloc[-1].round(2)
 
     # Create plotly figure for forecast
     fig = plot_plotly(m, forecast)
