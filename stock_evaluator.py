@@ -203,7 +203,7 @@ class StockPrediction:
         # Get user input for target date and return prepared data for linear regression
         lr_target_date, lr_X, lr_Y = lr.linear_regression_dataprep(self.stock_data)
         # Create regression and return linear regression line and r_squared error
-        lr_line, lr_rsquared = lr.linear_regression(self.stock_data, self.stock_ticker, lr_target_date, lr_X, lr_Y)
+        lr_line, lr_rsquared, reg_pred = lr.linear_regression(self.stock_data, self.stock_ticker, lr_target_date, lr_X, lr_Y)
         # Evaluate predictive value of regression curve
         st.subheader("Evaluation of the Linear Regression Model for Predictive Use:")
         lr.linear_regression_evaluation(lr_Y, lr_line, lr_rsquared)
@@ -229,7 +229,7 @@ class StockPrediction:
         lstm.lstm_visualize(date_test, date_train, close_test, close_train, prediction, self.stock_ticker)
         # Visualize prediction
         st.subheader("Model Prediction for next 15 days")
-        lstm.lstm_make_prediction(model, look_back, self.stock_data, close_data, close_data_noarray, self.stock_ticker)
+        lstm_pred = lstm.lstm_make_prediction(model, look_back, self.stock_data, close_data, close_data_noarray, self.stock_ticker)
         # Show evaluation of LSTM model
         st.subheader("Evaluation of the LSTM model for Predictive Use: ")
         lstm.lstm_evaluation(prediction, close_train)

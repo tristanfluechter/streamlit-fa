@@ -137,7 +137,7 @@ def lstm_visualize(date_test, date_train, close_test, close_train, prediction, s
 def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noarray, stockticker):
     """
     Makes a prediction for the next 30 days by appending forecast data to prediction
-    dataframe using the LSTM model.
+    dataframe using the LSTM model. Returns last day of prediction.
     """
     
     # For how many days do we predict?
@@ -188,6 +188,8 @@ def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noa
     fig2.update_yaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
     
     st.plotly_chart(fig2, use_container_width=True)
+    
+    lstm_pred = prediction_list[-1]
 
 def lstm_evaluation(prediction, close_train):
     root_mean_square_error = np.sqrt(((prediction[0] - close_train[0]) ** 2).mean()).round(2)

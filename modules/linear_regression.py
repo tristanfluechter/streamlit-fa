@@ -127,7 +127,10 @@ def linear_regression(stockdata, ticker, targetdate, lr_X, lr_Y):
     # Show plot
     st.plotly_chart(fig, use_container_width=True)
     
-    return lr_line, lr_rsquared
+    # Create final values
+    reg_pred =lr_line[-1]
+    
+    return lr_line, lr_rsquared, reg_pred
 
 def linear_regression_evaluation(lr_Y, lr_line, lr_rsquared):
     """
