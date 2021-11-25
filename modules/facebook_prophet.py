@@ -4,7 +4,6 @@ time series. Credits to the code: https://www.kaggle.com/ahmetax/fbprophet-and-p
 All customising has been done by the authors of this program.
 """
 # Import necessary modules
-import data_importer
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 from prophet import Prophet
