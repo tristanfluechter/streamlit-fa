@@ -198,7 +198,7 @@ class StockPrediction:
         
         # Header
         st.write("""
-            # Stock Prediction: Linear Regression
+            # Linear Regression
             Statsmodels linear regression based on the obtained stock data,
             a user-specified timeframe and a desired prediction date. Please be aware that a simple regression
             is not sufficient to make a stock purchase decision.
@@ -216,7 +216,7 @@ class StockPrediction:
         
         # Header
         st.write("""
-            # Stock Prediction: Long Short Term Memory
+            # Long Short Term Memory
             LSTM is a form of time series prediction. The model is first trained based on a user-defined
             train-test split to avoid overfitting. The model can then make a prediction for the next 15 days.
             As the model auto-correlates with its own predictions over a longer timeframe, we advise using
@@ -242,7 +242,7 @@ class StockPrediction:
         
         # Header
         st.write("""
-            # Stock Prediction: Facebook Prophet
+            # Facebook Prophet
             This module provides a stock forecast using the Facebook Prophet library.
             A forecast is created (along with a level of confidence) along with a weekday trend analysis.
             This provides an additional reference point in terms of where the stock may go in the future.
@@ -254,7 +254,7 @@ class StockPrediction:
         
         # Header
         st.write("""
-            # Stock Prediction: Sentiment Analysis
+            # Sentiment Analysis
             This module provides a sentiment analysis for a given stock ticker
             based on current Google News headlines. It has been trained on a dataset containing 6000 entries with
             25 headlines each. The model provides a positive or negative sentiment that can further help you
@@ -271,7 +271,7 @@ class StockPrediction:
         
         # Header
         st.write(f"""
-            # Stock Prediction: Recommendation
+            # Recommendation
             Should you buy {self.stock_ticker}? Current stock price: USD {self.stock_data["Close"].iloc[-1].round(2)}
             ***
                  
@@ -301,6 +301,15 @@ class StockPrediction:
         col2.write(rf_pred)
         col2.write(f"USD {prophet_pred}")
         
+        pred_list = [median_price, reg_pred, lstm_pred, prophet_pred]
+        stock_increase_list = [x for x in pred_list if pred_list[x] >= self.stock_data["Close"].iloc[-1]]
+        
+        if len(stock_increase_list) >= 3:
+            st.write("Our predictive measures indicate a stock uptrend - we recommend to buy!")
+        elif len(stock_increase_list) >= 2:
+            st.write("Our predictive measures seem to indicate a chance of an uptrend - buy cautiously.")
+        else:
+            st.write("Not enough evidence of likely uptrend - we recommend not to buy right now.")
 
 def get_stock_inputs():
     """
