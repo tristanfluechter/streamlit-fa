@@ -313,7 +313,7 @@ class StockPrediction:
         
         # Give user a summary of predictive measures        
         if len(stock_increase_list) >= 4:
-            st.write("Our predictive measures indicate a stock uptrend - we recommend to buy!")
+            st.subheader("Our predictive measures indicate a stock uptrend - we recommend to buy!")
         elif len(stock_increase_list) >= 2:
             st.subheader("Our predictive measures seem to indicate a chance of an uptrend - buy cautiously.")
         else:
