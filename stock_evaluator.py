@@ -362,13 +362,6 @@ def error_message_general():
              Please ensure correct format (valid ticker and start/end dates).
              """)
     st.image("images/Error_Message.jpg")
-
-def error_message_predictive():
-    st.write("""
-             # Error: Could not execute module.
-             """)
-    st.error("Please enter a timeframe of at least 100 days to ensure sensible prediction.")
-    st.image("images/Error_Message.jpg")
     
 def app():
     """
@@ -438,9 +431,9 @@ def app():
         try:
             stock.prediction(stock_news)
         except KeyError:
-            st.error("Entered timeframe too short for predictive model.")
+            st.error("Entered timeframe too short for predictive models.")
         except:
-            error_message_predictive()
+            error_message_general()
 
 # Run streamlit app
 app()
