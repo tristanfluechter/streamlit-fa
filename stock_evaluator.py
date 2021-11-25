@@ -166,6 +166,7 @@ class StockPrediction:
         # Display unweighted custom moving average based on user input
         st.subheader("Unweighted moving average - crossovers of MA lines indicate increase / decrease of stock value!")   
         ds.plot_simple_ma(self.stock_data)
+        
     
     def advanced_descriptive_stats(self):
         """
@@ -189,6 +190,7 @@ class StockPrediction:
         st.subheader("Candlechart Graph and Moving Average Convergence / Divergence")
         st.write("Crossing lines indicate stock downtrend / uptrend")
         ds.plot_macd(self.stock_data, self.stock_ticker)
+        
     
     def prediction(self, stock_news):
         """
@@ -318,6 +320,7 @@ class StockPrediction:
             st.subheader("Our predictive measures seem to indicate a chance of an uptrend - buy cautiously.")
         else:
             st.subheader("Not enough evidence of likely uptrend - we recommend not to buy right now.")
+            
 
 def get_stock_inputs():
     """
@@ -344,6 +347,7 @@ def get_stock_inputs():
 
     return stock_ticker, start_date, end_date
 
+
 # Cache function to save stock_data if nothing else has changed
 @st.cache(allow_output_mutation=True)
 def get_stock_data(stock_ticker, start_date, end_date):
@@ -355,6 +359,7 @@ def get_stock_data(stock_ticker, start_date, end_date):
     stock_data = data.DataReader(stock_ticker, "yahoo", start_date, end_date)
     return stock_data
 
+
 def error_message_general():
     st.write("""
              # Error: Could not execute module.
@@ -362,6 +367,7 @@ def error_message_general():
              Please ensure correct format (valid ticker and start/end dates).
              """)
     st.image("images/Error_Message.jpg")
+    
     
 def app():
     """
@@ -432,6 +438,7 @@ def app():
             stock.prediction(stock_news)
         except:
             st.error("Entered timeframe too short for predictive models.")
+            
 
 # Run streamlit app
 app()
