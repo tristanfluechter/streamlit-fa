@@ -189,7 +189,9 @@ def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noa
     
     st.plotly_chart(fig2, use_container_width=True)
     
-    st.write(prediction_list)
+    lstm_pred = prediction_list["0"].iloc[-1]
+    
+    return lstm_pred
 
 def lstm_evaluation(prediction, close_train):
     root_mean_square_error = np.sqrt(((prediction[0] - close_train[0]) ** 2).mean()).round(2)
