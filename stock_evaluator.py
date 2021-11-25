@@ -277,26 +277,28 @@ class StockPrediction:
                  
             """)
         
-        abs_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
-        ds.show_stock_price(self.stock_ticker, abs_change, trading_volume)
+        col1, col2, col3 = st.columns(3)
         
+        with col1:
+            abs_change, trading_volume = fd.scrape_financial_kpi(self.stock_ticker)
+            ds.show_stock_price(self.stock_ticker, abs_change, trading_volume)
+            
         # Get analyst predictions and assign median_price
         median_price, high, low = fd.scrape_analyst_predictions(self.stock_ticker)
-        st.subheader("Predictive Measures")
         
-        col1, col2 = st.columns(2)
+        col2.subheader("Predictive Measures")
         
-        col1.write("Median Analyst Predictions")
-        col1.write("Regression Prediction: ")
-        col1.write("Short-Term LSTM prediction: ")
-        col1.write("Short-Term Random Forest Sentiment Analysis Prediction: ")
-        col1.write("Long-Term Prophet Prediction: ")
+        col2.write("Median Analyst Predictions")
+        col2.write("Regression Prediction: ")
+        col2.write("Short-Term LSTM prediction: ")
+        col2.write("Short-Term Random Forest Sentiment Analysis Prediction: ")
+        col2.write("Long-Term Prophet Prediction: ")
         
-        col2.write(median_price)
-        col2.write(reg_pred)
-        col2.write(lstm_pred)
-        col2.write(" ")
-        col2.write(prophet_pred)
+        col3.write(median_price)
+        col3.write(reg_pred)
+        col3.write(lstm_pred)
+        col3.write(" ")
+        col3.write(prophet_pred)
         
 
 def get_stock_inputs():
