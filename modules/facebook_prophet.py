@@ -17,7 +17,7 @@ pd.core.common.is_list_like = pd.api.types.is_list_like
 
 # stock_data = data_importer.get_yahoo_data("AAPL", "2020-01-01", "2021-01-01")
 
-def prophet_forecast(stock_data):
+def prophet_dataprep(stock_data):
     """
     This module creates a stock forecast with the Facebook Prophet model based on the
     stock_data dataframe. It also creates a trendline as well as a weekday analysis of
@@ -39,7 +39,10 @@ def prophet_forecast(stock_data):
     # Split data
     prophet_data_train = prophet_data[0:split]
     prophet_data_test = prophet_data[split:]
+    
+    return prophet_data_train
 
+def prophet_forecast(prophet_data_train):
     # Create Prophet Model
     m = Prophet()
     m.fit(prophet_data_train)
@@ -50,7 +53,10 @@ def prophet_forecast(stock_data):
 
     # Get last date of prediction 
     prophet_pred = int(forecast["trend"].iloc[-1])
+    
+    return m, forecast, prophet_pred
 
+def prophet_visualize_forecast(m, forecast):
     # Create plotly figure for forecast
     fig = plot_plotly(m, forecast)
     
@@ -76,7 +82,8 @@ def prophet_forecast(stock_data):
     
     # Show prediction graph
     st.plotly_chart(fig, use_container_width = True)
-    
+
+def prophet_visualize_components(m, forecast):
     # Create components analysis plotly object
     fig2 = plot_components_plotly(m, forecast)
     
@@ -96,5 +103,3 @@ def prophet_forecast(stock_data):
     
     # Show Graph
     st.plotly_chart(fig2, use_container_width = True)
-
-    return prophet_pred
