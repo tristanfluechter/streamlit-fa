@@ -382,10 +382,10 @@ def app():
         except:
             error_message_general()
     elif navigation == "Predictive Models":
-        #try:
-        stock.prediction(stock_news)
-        #except:
-            #error_message_predictive()
+        try:
+            stock.prediction(stock_news)
+        except:
+            error_message_predictive()
 
 # Run streamlit app
 app()
