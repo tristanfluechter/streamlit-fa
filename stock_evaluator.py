@@ -272,13 +272,13 @@ class StockPrediction:
         # Header
         st.write(f"""
             # Stock Prediction: Recommendation
-            Should you buy {self.stock_ticker}? Current stock price: {self.stock_data["Close"].iloc[-1]}
+            Should you buy {self.stock_ticker}? Current stock price: {self.stock_data["Close"].iloc[-1].round(2)}
             ***
                  
             """)
         
         # Create Columns and define width
-        col1, col2 = st.columns([2,1])
+        col1, col2 = st.columns([1,1])
             
         # Get analyst predictions and assign median_price
         median_price, high, low = fd.scrape_analyst_predictions(self.stock_ticker)
