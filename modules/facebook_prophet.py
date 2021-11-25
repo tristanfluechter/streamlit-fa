@@ -13,9 +13,6 @@ from prophet.plot import plot_plotly, plot_components_plotly
 import plotly.graph_objects as go
 import streamlit as st
 pd.core.common.is_list_like = pd.api.types.is_list_like
-# import data_importer
-
-# stock_data = data_importer.get_yahoo_data("AAPL", "2020-01-01", "2021-01-01")
 
 def prophet_dataprep(stock_data):
     """
