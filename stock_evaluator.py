@@ -258,7 +258,7 @@ class StockPrediction:
         # Plot forecast
         pf.prophet_visualize_forecast(m, forecast)
         # Plot components
-        pf.prophet_visualize_components(m, forecast, prophet_data_train)
+        pf.prophet_visualize_components(m, forecast)
         
         
         
