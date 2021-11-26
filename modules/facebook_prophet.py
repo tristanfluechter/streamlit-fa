@@ -84,7 +84,7 @@ def prophet_visualize_forecast(m, forecast):
     # Show prediction graph
     st.plotly_chart(fig, use_container_width = True)
 
-def prophet_visualize_components(m, forecast):
+def prophet_visualize_components(m, forecast, prophet_data_train):
     """
     Visualizes model components (trend & weekday trend).
     """
@@ -95,8 +95,14 @@ def prophet_visualize_components(m, forecast):
     fig2.layout.update(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', 
                        margin=go.layout.Margin(l=60, r=0, b=0, t=30))
     
-    fig2.update_yaxes(title_text="Trend", row=1)
-    fig2.update_yaxes(title_text="Weekday Trend", row=2)
+    if len(prophet_data_train) >= 365:
+        fig2.update_yaxes(title_text="Trend", row=1)
+        fig2.update_yaxes(title_text="Day Trend", row=2)
+        fig2.update_yaxes(title_text="Weekday Trend", row=2)
+    
+    else:
+        fig2.update_yaxes(title_text="Trend", row=1)
+        fig2.update_yaxes(title_text="Weekday Trend", row=2)
     
     # Show chart axes lines
     fig2.update_xaxes(showline=True, linewidth=1, linecolor='black', mirror=True)
