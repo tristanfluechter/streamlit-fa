@@ -95,7 +95,7 @@ def prophet_visualize_components(m, forecast, prophet_data_train):
     fig2.layout.update(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', 
                        margin=go.layout.Margin(l=60, r=0, b=0, t=30))
     
-    if len(prophet_data_train) >= 365:
+    if len(prophet_data_train) >= 200:
         fig2.update_yaxes(title_text="Trend", row=1)
         fig2.update_yaxes(title_text="Day Trend", row=2)
         fig2.update_yaxes(title_text="Weekday Trend", row=2)
