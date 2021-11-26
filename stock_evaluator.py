@@ -445,7 +445,7 @@ def app():
         try:
             stock.prediction(stock_news)
         except:
-            st.error("Entered timeframe too short for predictive models.")
+            st.error("Entered timeframe not suitable for predictive models. Please re-enter timeframe to be at least 100 days and not longer than 3 years.")
             
 
 # Run streamlit app

@@ -29,7 +29,7 @@ def prophet_dataprep(stock_data):
     prophet_data = prophet_data.rename(columns={"Date": "ds", "Adj Close": "y"})
 
     # Define train-test-split
-    split = int(len(prophet_data) * 0.6)
+    split = int(len(prophet_data) * 0.8)
 
     # Split data
     prophet_data_train = prophet_data[0:split]
