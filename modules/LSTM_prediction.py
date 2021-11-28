@@ -28,7 +28,7 @@ def lstm_prepare_data(stockdata, stockticker):
     Returns: look_back, date_train, date_test, close_train, close_test, train_generator, test_generator, close_data_noarray, close_data
     """
     # To get a sensible train test split, we restrict the amount of freedom our user gets.
-    split_percent = st.number_input("Please enter your desired train-test-split as a positive float between 0.6 and 0.8: ", min_value=0.6, max_value=0.8)
+    split_percent = st.number_input("Please enter your desired train-test-split as a positive float between 0.6 and 0.8: ", min_value=0.6, max_value=0.8, value=0.8)
     
     # Convert dataframe index (which is a datetime index) to a column
     stockdata['Date'] = stockdata.index
