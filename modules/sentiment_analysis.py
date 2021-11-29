@@ -2,7 +2,7 @@
 This module provides a sentiment analysis for a given stock ticker
 based on current Google News headlines.
 
-Credit to: https://www.kaggle.com/rohit0906/stock-sentiment-analysis-using-news-headlines
+Credit to: https://www.analyticsvidhya.com/blog/2021/05/stock-price-movement-based-on-news-headline/
 All customizing has been done by the authors of this program.
 """
 
