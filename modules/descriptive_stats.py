@@ -125,16 +125,13 @@ def plot_simple_ma(stockdata):
     and provides moving averages based on user input.
     """
     # Get total number of days in dataframe
-    total_days = len(stockdata)
+    max_ma_value = len(stockdata) * 0.7
     
     # Define moving averages to plot
     # Error handling
     try:    
-        ma1_input = st.number_input("Please state a first moving average to plot (in days): ", min_value=1, value=10, step=1)
-        ma2_input = st.number_input("Please state a second moving average to plot (in days): ", min_value=1, value=20, step=1)
-        
-        if ma1_input > total_days or ma2_input > total_days:
-            st.write("One of the Moving Averages is set to an invalid date.")
+        ma1_input = st.number_input("Please state a first moving average to plot (in days): ", min_value=1, max_value = max_ma_value, value=10, step=1)
+        ma2_input = st.number_input("Please state a second moving average to plot (in days): ", min_value=1, max_value = max_ma_value, value=20, step=1)
             
     except:
         st.write("Invalid input. Please enter a positive integer.")
