@@ -125,7 +125,7 @@ def plot_simple_ma(stockdata):
     and provides moving averages based on user input.
     """
     # Get total number of days in dataframe
-    max_ma_value = len(stockdata) * 0.7
+    max_ma_value = int(len(stockdata) * 0.7)
     
     # Define moving averages to plot
     # Error handling
