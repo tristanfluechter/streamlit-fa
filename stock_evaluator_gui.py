@@ -447,10 +447,11 @@ def app():
         except:
             st.error("Entered timeframe not suitable for predictive models. Please re-enter timeframe to be at least 100 days and not longer than 3 years.")
             
+app()
 
-def main():
-    # Run streamlit app
-    app()
+# def main():
+#     # Run streamlit app
+#     app()
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
