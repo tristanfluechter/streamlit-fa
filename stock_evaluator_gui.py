@@ -33,6 +33,7 @@ def homepage(stock_ticker, start_date, end_date):
     """
     This is the starting point of our module - the homepage.
     It performs no calculations.
+    Image credit: https://www.pexels.com/photo/magnifying-glass-on-top-of-document-6801648/
     """
     
     # Welcome page for the user
