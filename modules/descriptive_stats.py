@@ -75,7 +75,7 @@ def describe_stock_data(stockdata, ticker):
         "First quartile of stock prices":stock_des_quart1,
         "Second quartile of stock prices":stock_des_quart2,
         "Third quartile of stock prices":stock_des_quart3,
-        "Quartile quartile of stock prices":stock_des_range,
+        "Quartile range of stock prices":stock_des_range,
         "Standard deviation":stock_des_stddev,
         "Variation coefficient":stock_des_var_coefficient   
     }
