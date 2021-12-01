@@ -194,4 +194,4 @@ def lstm_make_prediction(model, look_back, stockdata, close_data, close_data_noa
 
 def lstm_evaluation(prediction, close_train):
     root_mean_square_error = np.sqrt(((prediction[0] - close_train[0]) ** 2).mean()).round(2)
-    st.write(f"The trained LSTM model shows an RSME of {root_mean_square_error}.")
+    st.write(f"The trained LSTM model shows an RMSE of {root_mean_square_error}.")
